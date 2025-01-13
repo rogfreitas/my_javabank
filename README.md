@@ -2,7 +2,7 @@
 
 This is a read only repository. You can only pull from this repo, not push.
 
-On your local machine, inside of your local repository, add this repo using `git remote add ac <github-url>` where `<gitlaburl>` is the url of this repo.
+On your local machine, inside of your local repository, add this repo using `git remote add ac <github-url>` where `<github-url>` is the url of this repo.
 
 At each step, you will make sure to:
 
