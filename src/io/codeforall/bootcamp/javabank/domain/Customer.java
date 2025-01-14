@@ -88,7 +88,7 @@ public class Customer {
         double balance = 0;
 
         for (Account account : accounts.values()) {
-            System.out.println("Account number: " + account.getId() + " - Balance: "+account.getBalance() );
+            System.out.println("Account number: " + account.getId() + " - Balance: "  + account.getBalance() );
             balance += account.getBalance();
 
         }
