@@ -14,6 +14,29 @@ public class Customer {
 
     private AccountManager accountManager;
     private Map<Integer, Account> accounts = new HashMap<>();
+    private String name;
+    private int idCustomer;
+
+    public Customer(int idCustomer, String name){
+        this.name = name;
+        this.idCustomer=idCustomer;
+    }
+
+    public Customer(){
+    }
+
+    public int getIdCustomer(){
+        return idCustomer;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setIdCustomer(int idCustomer) {
+        this.idCustomer = idCustomer;
+    }
+
 
     /**
      * Sets the account manager
@@ -37,6 +60,14 @@ public class Customer {
         return account.getId();
     }
 
+    public AccountManager getAccountManager(){
+        return accountManager;
+    }
+
+
+    public Map<Integer, Account> getAccounts(){
+        return accounts;
+    }
     /**
      * Gets the balance of an {@link Account}
      *
@@ -57,7 +88,9 @@ public class Customer {
         double balance = 0;
 
         for (Account account : accounts.values()) {
+            System.out.println("Account number: " + account.getId() + " - Balance: "+account.getBalance() );
             balance += account.getBalance();
+
         }
 
         return balance;

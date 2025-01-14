@@ -29,8 +29,19 @@ public class Bank {
      * @see Customer#setAccountManager(AccountManager)
      */
     public void addCustomer(Customer customer) {
+
         customers.add(customer);
         customer.setAccountManager(accountManager);
+
+    }
+
+    public Customer getCustomers(int idCustomer){
+        for(Customer customer:customers){
+            if(customer.getIdCustomer() == idCustomer){
+                return customer;
+            }
+        }
+        return null;
     }
 
     /**
