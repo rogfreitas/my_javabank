@@ -9,7 +9,7 @@ public class ViewBalance implements Handler{
     }
     @Override
     public void execute() {
-        System.out.println("Balance= " + customer.getBalance());
+        System.out.println("\n\nTotal Balance: " + customer.getBalance());
     }
 
     @Override
