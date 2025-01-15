@@ -1,9 +1,9 @@
 package io.codeforall.bootcamp.javabank.test;
 
-import io.codeforall.bootcamp.javabank.domain.Customer;
-import io.codeforall.bootcamp.javabank.domain.account.AccountType;
-import io.codeforall.bootcamp.javabank.domain.account.SavingsAccount;
-import io.codeforall.bootcamp.javabank.managers.AccountManager;
+import io.codeforall.bootcamp.javabank.Model.Customer;
+import io.codeforall.bootcamp.javabank.Model.account.AccountType;
+import io.codeforall.bootcamp.javabank.Model.account.SavingsAccount;
+import io.codeforall.bootcamp.javabank.Model.AccountManager;
 
 public class CustomerTest {
 

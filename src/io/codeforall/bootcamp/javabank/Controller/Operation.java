@@ -1,4 +1,4 @@
-package io.codeforall.bootcamp.javabank.application.operations;
+package io.codeforall.bootcamp.javabank.Controller;
 
 /**
  * Common interface for bank operations, providing an execution method

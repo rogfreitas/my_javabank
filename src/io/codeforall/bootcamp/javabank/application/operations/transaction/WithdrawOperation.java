@@ -1,7 +1,7 @@
 package io.codeforall.bootcamp.javabank.application.operations.transaction;
 
-import io.codeforall.bootcamp.javabank.application.BankApplication;
-import io.codeforall.bootcamp.javabank.application.UserOptions;
+import io.codeforall.bootcamp.javabank.Controller.FlowController;
+import io.codeforall.bootcamp.javabank.Controller.UserOptions;
 
 /**
  * An account transaction used to withdraw an amount
@@ -15,8 +15,8 @@ public class WithdrawOperation extends AbstractAccountTransactionOperation {
      *
      * @see AbstractAccountTransactionOperation
      */
-    public WithdrawOperation(BankApplication bankApplication) {
-        super(bankApplication);
+    public WithdrawOperation(FlowController flowController) {
+        super(flowController);
     }
 
     /**

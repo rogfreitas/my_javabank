@@ -1,4 +1,4 @@
-package io.codeforall.bootcamp.javabank.domain.account;
+package io.codeforall.bootcamp.javabank.Model.account;
 
 /**
  * A checking account with no restrictions

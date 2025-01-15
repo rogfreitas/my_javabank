@@ -1,4 +1,4 @@
-package io.codeforall.bootcamp.javabank.domain.account;
+package io.codeforall.bootcamp.javabank.Model.account;
 
 /**
  * Common interface for bank accounts, provides methods to access account

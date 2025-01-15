@@ -1,8 +1,8 @@
-package io.codeforall.bootcamp.javabank.application;
+package io.codeforall.bootcamp.javabank.Controller;
 
+import io.codeforall.bootcamp.javabank.View.Messages;
 import io.codeforall.bootcamp.javabank.application.operations.BalanceOperation;
 import io.codeforall.bootcamp.javabank.application.operations.NewAccountOperation;
-import io.codeforall.bootcamp.javabank.application.operations.Operation;
 import io.codeforall.bootcamp.javabank.application.operations.transaction.DepositOperation;
 import io.codeforall.bootcamp.javabank.application.operations.transaction.WithdrawOperation;
 

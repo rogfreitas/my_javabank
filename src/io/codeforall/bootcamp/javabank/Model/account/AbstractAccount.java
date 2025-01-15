@@ -1,4 +1,4 @@
-package io.codeforall.bootcamp.javabank.domain.account;
+package io.codeforall.bootcamp.javabank.Model.account;
 
 /**
  * A generic account domain entity to be used as a base for concrete types of accounts

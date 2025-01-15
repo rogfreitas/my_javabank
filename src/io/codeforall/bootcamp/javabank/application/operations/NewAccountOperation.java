@@ -1,9 +1,9 @@
 package io.codeforall.bootcamp.javabank.application.operations;
 
-import io.codeforall.bootcamp.javabank.domain.account.AccountType;
-import io.codeforall.bootcamp.javabank.application.BankApplication;
-import io.codeforall.bootcamp.javabank.application.Messages;
-import io.codeforall.bootcamp.javabank.application.UserOptions;
+import io.codeforall.bootcamp.javabank.Model.account.AccountType;
+import io.codeforall.bootcamp.javabank.Controller.FlowController;
+import io.codeforall.bootcamp.javabank.View.Messages;
+import io.codeforall.bootcamp.javabank.Controller.UserOptions;
 
 /**
  * A bank operation to create new accounts
@@ -15,10 +15,10 @@ public class NewAccountOperation extends AbstractBankOperation {
     /**
      * Creates a new {@code NewAccountOperation}
      *
-     * @see AbstractBankOperation#AbstractBankOperation(BankApplication)
+     * @see AbstractBankOperation#AbstractBankOperation(FlowController)
      */
-    public NewAccountOperation(BankApplication bankApplication) {
-        super(bankApplication);
+    public NewAccountOperation(FlowController flowController) {
+        super(flowController);
     }
 
     /**

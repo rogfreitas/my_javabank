@@ -1,9 +1,9 @@
 package io.codeforall.bootcamp.javabank;
 
-import io.codeforall.bootcamp.javabank.application.BankApplication;
-import io.codeforall.bootcamp.javabank.domain.Bank;
-import io.codeforall.bootcamp.javabank.domain.Customer;
-import io.codeforall.bootcamp.javabank.managers.AccountManager;
+import io.codeforall.bootcamp.javabank.application.FlowController_;
+import io.codeforall.bootcamp.javabank.Model.Bank;
+import io.codeforall.bootcamp.javabank.Model.Customer;
+import io.codeforall.bootcamp.javabank.Model.AccountManager;
 
 public class App {
 
@@ -20,7 +20,7 @@ public class App {
         bank.addCustomer(c2);
         bank.addCustomer(c3);
 
-        BankApplication bankApplication = new BankApplication(bank);
-        bankApplication.start();
+        FlowController_ flowController = new FlowController_(bank);
+        flowController.start();
     }
 }

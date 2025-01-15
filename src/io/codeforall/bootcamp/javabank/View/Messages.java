@@ -1,4 +1,4 @@
-package io.codeforall.bootcamp.javabank.application;
+package io.codeforall.bootcamp.javabank.View;
 
 /**
  * Messages to be used throughout the application

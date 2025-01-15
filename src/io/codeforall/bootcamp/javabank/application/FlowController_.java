@@ -1,14 +1,15 @@
 package io.codeforall.bootcamp.javabank.application;
 
+import io.codeforall.bootcamp.javabank.View.MenuView;
+import io.codeforall.bootcamp.javabank.Controller.UserOptions;
+import io.codeforall.bootcamp.javabank.View.ScanCustomerNumberView;
 import io.codeforall.bootcamp.javabank.application.operations.BalanceOperation;
 import io.codeforall.bootcamp.javabank.application.operations.NewAccountOperation;
-import io.codeforall.bootcamp.javabank.application.operations.Operation;
+import io.codeforall.bootcamp.javabank.Controller.Operation;
 import io.codeforall.bootcamp.javabank.application.operations.transaction.DepositOperation;
 import io.codeforall.bootcamp.javabank.application.operations.transaction.WithdrawOperation;
 import org.academiadecodigo.bootcamp.Prompt;
-import org.academiadecodigo.bootcamp.scanners.integer.IntegerSetInputScanner;
-import org.academiadecodigo.bootcamp.scanners.menu.MenuInputScanner;
-import io.codeforall.bootcamp.javabank.domain.Bank;
+import io.codeforall.bootcamp.javabank.Model.Bank;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -16,21 +17,24 @@ import java.util.Map;
 /**
  * The bank application
  */
-public class BankApplication {
+public class FlowController_ {
 
     private Prompt prompt;
-    private MenuInputScanner mainMenu;
+    //private MenuInputScanner mainMenu;
     private Map<Integer, Operation> operationsMap;
 
     private Bank bank;
     private int accessingCustomerId;
+    private MenuView menuView;
+
 
     /**
      * Creates a new instance of a {@code BankApplication}, initializes it with the given {@link Bank}
      *
      * @param bank the bank instance
      */
-    public BankApplication(Bank bank) {
+    public FlowController_(Bank bank) {
+        //menuView = new MenuView(prompt);
         this.bank = bank;
         this.prompt = new Prompt(System.in, System.out);
     }
@@ -67,16 +71,20 @@ public class BankApplication {
      */
     public void start() {
 
-        mainMenu = buildMainMenu();
+        menuView = new MenuView(prompt);
+        //mainMenu =
+        menuView.buildMainMenu();
 
-        accessingCustomerId = scanCustomerId();
+     //   accessingCustomerId = ScanCustomerNumberView.scanCustomerId(bank.getCustomerIds());
         operationsMap = buildOperationsMap();
         menuLoop();
     }
 
     private void menuLoop() {
 
-        int userChoice = prompt.getUserInput(mainMenu);
+       // int userChoice = prompt.getUserInput(mainMenu);
+
+        int userChoice = menuView.menuLoop();
 
         if (userChoice == UserOptions.QUIT.getOption()) {
             return;
@@ -86,6 +94,7 @@ public class BankApplication {
         menuLoop();
     }
 
+/*
     private int scanCustomerId() {
 
         IntegerSetInputScanner scanner = new IntegerSetInputScanner(bank.getCustomerIds());
@@ -94,7 +103,10 @@ public class BankApplication {
 
         return prompt.getUserInput(scanner);
     }
+    */
 
+
+/*
     private MenuInputScanner buildMainMenu() {
 
         MenuInputScanner mainMenu = new MenuInputScanner(UserOptions.getMessages());
@@ -103,15 +115,17 @@ public class BankApplication {
 
         return mainMenu;
     }
+*/
+
 
     private Map<Integer, Operation> buildOperationsMap() {
 
         Map<Integer, Operation> map = new HashMap<>();
-        map.put(UserOptions.GET_BALANCE.getOption(), new BalanceOperation(this));
+ /*       map.put(UserOptions.GET_BALANCE.getOption(), new BalanceOperation(this));
         map.put(UserOptions.DEPOSIT.getOption(), new DepositOperation(this));
         map.put(UserOptions.WITHDRAW.getOption(), new WithdrawOperation(this));
         map.put(UserOptions.OPEN_ACCOUNT.getOption(), new NewAccountOperation(this));
-
+*/
         return map;
     }
 }

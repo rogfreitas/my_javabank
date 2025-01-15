@@ -1,9 +1,10 @@
 package io.codeforall.bootcamp.javabank.application.operations;
 
-import io.codeforall.bootcamp.javabank.application.BankApplication;
-import io.codeforall.bootcamp.javabank.application.Messages;
-import io.codeforall.bootcamp.javabank.application.UserOptions;
-import io.codeforall.bootcamp.javabank.domain.account.Account;
+import io.codeforall.bootcamp.javabank.Controller.FlowController;
+import io.codeforall.bootcamp.javabank.Controller.Operation;
+import io.codeforall.bootcamp.javabank.View.Messages;
+import io.codeforall.bootcamp.javabank.Controller.UserOptions;
+import io.codeforall.bootcamp.javabank.Model.account.Account;
 
 import java.text.DecimalFormat;
 import java.util.Set;
@@ -20,10 +21,10 @@ public class BalanceOperation extends AbstractBankOperation {
     /**
      * Creates a new {@code BalanceOperation}
      *
-     * @see AbstractBankOperation#AbstractBankOperation(BankApplication)
+     * @see AbstractBankOperation#AbstractBankOperation(FlowController)
      */
-    public BalanceOperation(BankApplication bankApplication) {
-        super(bankApplication);
+    public BalanceOperation(FlowController flowController) {
+        super(flowController);
     }
 
     /**

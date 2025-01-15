@@ -1,12 +1,13 @@
 package io.codeforall.bootcamp.javabank.application.operations.transaction;
 
+import io.codeforall.bootcamp.javabank.Controller.FlowController;
 import org.academiadecodigo.bootcamp.Prompt;
 import org.academiadecodigo.bootcamp.scanners.integer.IntegerSetInputScanner;
 import org.academiadecodigo.bootcamp.scanners.precisiondouble.DoubleInputScanner;
-import io.codeforall.bootcamp.javabank.application.BankApplication;
-import io.codeforall.bootcamp.javabank.application.Messages;
+import io.codeforall.bootcamp.javabank.application.FlowController_;
+import io.codeforall.bootcamp.javabank.View.Messages;
 import io.codeforall.bootcamp.javabank.application.operations.AbstractBankOperation;
-import io.codeforall.bootcamp.javabank.managers.AccountManager;
+import io.codeforall.bootcamp.javabank.Model.AccountManager;
 
 /**
  * A generic account transaction to be used as a base for concrete transaction implementations
@@ -19,12 +20,12 @@ public abstract class AbstractAccountTransactionOperation extends AbstractBankOp
     /**
      * Initializes a new {@code AbstractAccountTransactionOperation} given a bank application
      *
-     * @see AbstractBankOperation#AbstractBankOperation(BankApplication)
+     * @see AbstractBankOperation#AbstractBankOperation(FlowController)
      */
-    public AbstractAccountTransactionOperation(BankApplication bankApplication) {
-        super(bankApplication);
-        prompt = bankApplication.getPrompt();
-        accountManager = bankApplication.getBank().getAccountManager();
+    public AbstractAccountTransactionOperation(FlowController flowController) {
+        super(flowController);
+        prompt = flowController.getPrompt();
+        accountManager = flowController.getBank().getAccountManager();
     }
 
     /**
