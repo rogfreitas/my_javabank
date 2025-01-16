@@ -6,6 +6,8 @@ import io.codeforall.bootcamp.javabank.controller.transaction.WithdrawalControll
 import io.codeforall.bootcamp.javabank.managers.AccountManager;
 import io.codeforall.bootcamp.javabank.model.Bank;
 import io.codeforall.bootcamp.javabank.model.Customer;
+import io.codeforall.bootcamp.javabank.services.CustomerService;
+import io.codeforall.bootcamp.javabank.services.CustomerServiceImp;
 import io.codeforall.bootcamp.javabank.view.*;
 import org.academiadecodigo.bootcamp.Prompt;
 
@@ -28,12 +30,23 @@ public class Bootstrap {
         AccountManager accountManager = new AccountManager();
         bank.setAccountManager(accountManager);
 
+
+        CustomerServiceImp customerServiceImp=new CustomerServiceImp();
+
+
+
         Customer c1 = new Customer(1, "Rui");
         Customer c2 = new Customer(2, "Sergio");
         Customer c3 = new Customer(3, "Bruno");
+
+
         bank.addCustomer(c1);
         bank.addCustomer(c2);
         bank.addCustomer(c3);
+
+        customerServiceImp.add(c1);
+        customerServiceImp.add(c2);
+        customerServiceImp.add(c3);
 
         return bank;
     }
