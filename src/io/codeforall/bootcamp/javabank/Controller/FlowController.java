@@ -49,7 +49,7 @@ public class FlowController {
         //mainMenu =
         menuView.buildMainMenu();
 
-        accessingCustomerId = ScanCustomerNumberView.scanCustomerId(bank.getCustomerIds());
+        accessingCustomerId = (new ScanCustomerNumberView(prompt)).scanCustomerId(bank.getCustomerIds());
         operationsMap = buildOperationsMap();
         menuLoop();
     }
@@ -71,14 +71,13 @@ public class FlowController {
     private Map<Integer, Operation> buildOperationsMap() {
 
         Map<Integer, Operation> map = new HashMap<>();
-        map.put(UserOptions.GET_BALANCE.getOption(), new BalanceOperation(this));
+        map.put(UserOptions.GET_BALANCE.getOption(), new BalanceControler(this));
         map.put(UserOptions.DEPOSIT.getOption(), new DepositOperation(this));
         map.put(UserOptions.WITHDRAW.getOption(), new WithdrawOperation(this));
         map.put(UserOptions.OPEN_ACCOUNT.getOption(), new NewAccountOperation(this));
 
         return map;
     }
-
 
 
 }

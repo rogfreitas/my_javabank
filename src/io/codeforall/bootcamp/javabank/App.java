@@ -1,5 +1,6 @@
 package io.codeforall.bootcamp.javabank;
 
+import io.codeforall.bootcamp.javabank.Controller.FlowController;
 import io.codeforall.bootcamp.javabank.application.FlowController_;
 import io.codeforall.bootcamp.javabank.Model.Bank;
 import io.codeforall.bootcamp.javabank.Model.Customer;
@@ -20,7 +21,7 @@ public class App {
         bank.addCustomer(c2);
         bank.addCustomer(c3);
 
-        FlowController_ flowController = new FlowController_(bank);
+        FlowController flowController = new FlowController(bank);
         flowController.start();
     }
 }

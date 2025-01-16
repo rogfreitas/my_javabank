@@ -16,7 +16,7 @@ public class ScanCustomerNumberView {
     public int scanCustomerId(Set<Integer> customerIds) {
 
        // IntegerSetInputScanner scanner = new IntegerSetInputScanner(customerIds);
-        IntegerSetInputScanner scanner = new IntegerSetInputScanner();
+        IntegerSetInputScanner scanner = new IntegerSetInputScanner(customerIds);
         scanner.setMessage(Messages.CHOOSE_CUSTOMER);
         scanner.setError(Messages.ERROR_INVALID_CUSTOMER);
         int p=prompt.getUserInput(scanner);
