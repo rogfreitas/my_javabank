@@ -1,11 +1,11 @@
 package io.codeforall.bootcamp.javabank;
 
-import io.codeforall.bootcamp.javabank.controller.LoginController;
-import io.codeforall.bootcamp.javabank.model.Bank;
+import io.codeforall.bootcamp.javabank.controller.Controller;
+import io.codeforall.bootcamp.javabank.services.AccountServiceImpl;
+import io.codeforall.bootcamp.javabank.services.AuthServiceImpl;
+import io.codeforall.bootcamp.javabank.services.CustomerServiceImpl;
 
 public class App {
-
-    private Bank bank;
 
     public static void main(String[] args) {
 
@@ -16,11 +16,14 @@ public class App {
     private void bootStrap() {
 
         Bootstrap bootstrap = new Bootstrap();
-        bank = bootstrap.generateTestData();
+        bootstrap.setAuthService(new AuthServiceImpl());
+        bootstrap.setAccountService(new AccountServiceImpl());
+        bootstrap.setCustomerService(new CustomerServiceImpl());
+        bootstrap.loadCustomers();
 
-        LoginController loginController = bootstrap.wireObjects(bank);
+        Controller controller = bootstrap.wireObjects();
 
         // start application
-        loginController.init();
+        controller.init();
     }
 }

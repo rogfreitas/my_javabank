@@ -1,51 +1,61 @@
 package io.codeforall.bootcamp.javabank;
 
-import io.codeforall.bootcamp.javabank.managers.AccountManager;
-import io.codeforall.bootcamp.javabank.model.account.Account;
-import io.codeforall.bootcamp.javabank.model.account.AccountType;
-import io.codeforall.bootcamp.javabank.model.account.SavingsAccount;
 
-public class AccountManagerTest {
+import io.codeforall.bootcamp.javabank.model.account.Account;
+import io.codeforall.bootcamp.javabank.model.account.CheckingAccount;
+import io.codeforall.bootcamp.javabank.model.account.SavingsAccount;
+import io.codeforall.bootcamp.javabank.services.AccountService;
+import io.codeforall.bootcamp.javabank.services.AccountServiceImpl;
+
+public class AccountServiceTest {
 
     public boolean test() {
 
-        AccountManager accountManager = new AccountManager();
-        Account ac = accountManager.openAccount(AccountType.CHECKING);
-        Account as = accountManager.openAccount(AccountType.SAVINGS);
+        AccountService accountService = new AccountServiceImpl();
+        Account ac = new CheckingAccount();
+        Account as = new SavingsAccount();
+        accountService.add(ac);
+        accountService.add(as);
+
+        // should add ids
+        if (ac.getId() == null || as.getId() == null) {
+            return false;
+        }
 
         // should be able to deposit
-        accountManager.deposit(ac.getId(), 10);
-        accountManager.deposit(as.getId(), SavingsAccount.MIN_BALANCE + 10);
+        accountService.deposit(ac.getId(), 10);
+        accountService.deposit(as.getId(), SavingsAccount.MIN_BALANCE + 10);
         if (ac.getBalance() != 10 || as.getBalance() != SavingsAccount.MIN_BALANCE + 10) {
             return false;
         }
 
         // should be able to withdraw
-        accountManager.withdraw(ac.getId(), 1);
+        accountService.withdraw(ac.getId(), 1);
         if (ac.getBalance() != 9) {
             return false;
         }
 
         // should not be able to withdraw
-        accountManager.withdraw(as.getId(), 30);
+        accountService.withdraw(as.getId(), 30);
         if (as.getBalance() != 110) {
             return false;
         }
 
+
         // should be able to transfer if sufficient funds are available
-        accountManager.transfer(as.getId(), ac.getId(), 1);
+        accountService.transfer(as.getId(), ac.getId(), 1);
         if (ac.getBalance() != 10 || as.getBalance() != SavingsAccount.MIN_BALANCE + 9) {
             return false;
         }
 
         // should not be able to transfer if available funds are not sufficient in savings
-        accountManager.transfer(as.getId(), ac.getId(), 10);
+        accountService.transfer(as.getId(), ac.getId(), 10);
         if (ac.getBalance() != 10 || as.getBalance() != SavingsAccount.MIN_BALANCE + 9) {
             return false;
         }
 
         // should not be able to transfer if available funds are not sufficient in checking
-        accountManager.transfer(ac.getId(), as.getId(), 11);
+        accountService.transfer(ac.getId(), as.getId(), 11);
         if (ac.getBalance() != 10 || as.getBalance() != SavingsAccount.MIN_BALANCE + 9) {
             return false;
         }

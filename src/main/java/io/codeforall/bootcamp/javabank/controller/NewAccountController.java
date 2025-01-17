@@ -1,9 +1,9 @@
 package io.codeforall.bootcamp.javabank.controller;
 
-import io.codeforall.bootcamp.javabank.managers.AccountManager;
-import io.codeforall.bootcamp.javabank.model.Bank;
+import io.codeforall.bootcamp.javabank.factories.AccountFactory;
 import io.codeforall.bootcamp.javabank.model.account.Account;
 import io.codeforall.bootcamp.javabank.model.account.AccountType;
+import io.codeforall.bootcamp.javabank.services.AccountService;
 import io.codeforall.bootcamp.javabank.view.NewAccountView;
 
 /**
@@ -11,17 +11,9 @@ import io.codeforall.bootcamp.javabank.view.NewAccountView;
  */
 public class NewAccountController extends AbstractController {
 
-    private Bank bank;
     private Integer newAccountId;
-
-    /**
-     * Sets the bank
-     *
-     * @param bank the bank to set
-     */
-    public void setBank(Bank bank) {
-        this.bank = bank;
-    }
+    private AccountFactory accountFactory;
+    private AccountService accountService;
 
     /**
      * Gets the new account id
@@ -33,10 +25,28 @@ public class NewAccountController extends AbstractController {
     }
 
     /**
+     * Sets the account factory
+     *
+     * @param accountFactory the account factory to set
+     */
+    public void setAccountFactory(AccountFactory accountFactory) {
+        this.accountFactory = accountFactory;
+    }
+
+    /**
+     * Sets the account service
+     *
+     * @param accountService the account service to set
+     */
+    public void setAccountService(AccountService accountService) {
+        this.accountService = accountService;
+    }
+
+    /**
      * Creates a new {@link Account}
      *
      * @see Controller#init()
-     * @see AccountManager#openAccount(AccountType)
+     * @see AccountFactory#createAccount(AccountType)
      */
     @Override
     public void init() {
@@ -47,8 +57,10 @@ public class NewAccountController extends AbstractController {
 
     private int createAccount() {
 
-        Account newAccount = bank.getAccountManager().openAccount(AccountType.CHECKING);
-        bank.getLoginCustomer().addAccount(newAccount);
+        Account newAccount = accountFactory.createAccount(AccountType.CHECKING);
+
+        accountService.add(newAccount);
+        authService.getAccessingCustomer().addAccount(newAccount);
 
         return newAccount.getId();
     }

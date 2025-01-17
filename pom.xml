@@ -5,12 +5,12 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>io.codeforall.bootcamp.javabank</groupId>
-    <artifactId>javabank-step02-mvc</artifactId>
+    <artifactId>javabank-step03-service-layer</artifactId>
     <version>1.0-SNAPSHOT</version>
 
     <properties>
-        <maven.compiler.source>23</maven.compiler.source>
-        <maven.compiler.target>23</maven.compiler.target>
+        <maven.compiler.source>8</maven.compiler.source>
+        <maven.compiler.target>8</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
@@ -29,7 +29,7 @@
                 <configuration>
                     <archive>
                         <manifest>
-                            <mainClass>io.codeforall.bootcamp.javabank.javabank.App</mainClass>
+                            <mainClass>io.codeforall.bootcamp.javabank.App</mainClass>
                         </manifest>
                     </archive>
                     <descriptorRefs>
@@ -47,5 +47,4 @@
             </plugin>
         </plugins>
     </build>
-
 </project>
