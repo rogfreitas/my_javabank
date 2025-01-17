@@ -29,16 +29,9 @@ public class CustomerServiceImp implements CustomerService{
     public Set<Integer> listCustomerAccountIds(Integer id) {
         return customers.get(id).getAccountIds();
     }
-
     @Override
     public double getBalance(int customerId) {
-        double balance = 0;
-
-        for (Customer customer : customers.values()) {
-            balance += customer.getBalance();
-        }
-
-        return balance;
+        return customers.get(customerId).getBalance();
     }
 
     @Override
