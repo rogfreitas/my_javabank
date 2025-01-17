@@ -1,7 +1,6 @@
 package io.codeforall.bootcamp.javabank.view;
 
 import io.codeforall.bootcamp.javabank.controller.BalanceController;
-import io.codeforall.bootcamp.javabank.model.Bank;
 import io.codeforall.bootcamp.javabank.model.Customer;
 import io.codeforall.bootcamp.javabank.model.account.Account;
 

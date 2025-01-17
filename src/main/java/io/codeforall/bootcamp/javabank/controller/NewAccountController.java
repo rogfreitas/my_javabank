@@ -1,28 +1,25 @@
 package io.codeforall.bootcamp.javabank.controller;
 
-import io.codeforall.bootcamp.javabank.managers.AccountManager;
-import io.codeforall.bootcamp.javabank.model.Bank;
 import io.codeforall.bootcamp.javabank.model.account.Account;
 import io.codeforall.bootcamp.javabank.model.account.AccountType;
+import io.codeforall.bootcamp.javabank.services.CustomerServiceImp;
 import io.codeforall.bootcamp.javabank.view.NewAccountView;
+import jdk.jfr.SettingDefinition;
+
+import java.lang.annotation.Inherited;
 
 /**
  * The {@link NewAccountView} controller
  */
 public class NewAccountController extends AbstractController {
 
-    private Bank bank;
+    //private Bank bank;
+    private CustomerServiceImp customerServiceImp;
     private Integer newAccountId;
 
-    /**
-     * Sets the bank
-     *
-     * @param bank the bank to set
-     */
-    public void setBank(Bank bank) {
-        this.bank = bank;
+    public void setCustomerServiceImp(CustomerServiceImp customerServiceImp){
+        this.customerServiceImp=customerServiceImp;
     }
-
     /**
      * Gets the new account id
      *
@@ -47,8 +44,10 @@ public class NewAccountController extends AbstractController {
 
     private int createAccount() {
 
-        Account newAccount = bank.getAccountManager().openAccount(AccountType.CHECKING);
-        bank.getLoginCustomer().addAccount(newAccount);
+        //Account newAccount = bank.getAccountManager().openAccount(AccountType.CHECKING);
+        //bank.getLoginCustomer().addAccount(newAccount);
+
+        Account newAccount = customerServiceImp.getAccountManager().openAccount(AccountType.CHECKING);
 
         return newAccount.getId();
     }
