@@ -5,7 +5,7 @@ import io.codeforall.bootcamp.javabank.services.AuthServiceImpl;
 import io.codeforall.bootcamp.javabank.services.CustomerService;
 import io.codeforall.bootcamp.javabank.services.CustomerServiceImpl;
 
-public class AuthServiceTest {
+public class AuthServiceTest_old {
 
     public boolean test() {
 

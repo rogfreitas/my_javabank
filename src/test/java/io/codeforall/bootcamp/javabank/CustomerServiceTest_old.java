@@ -8,7 +8,7 @@ import io.codeforall.bootcamp.javabank.services.CustomerServiceImpl;
 
 import java.util.Set;
 
-public class CustomerServiceTest {
+public class CustomerServiceTest_old {
 
     public boolean test() {
 

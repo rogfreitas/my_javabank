@@ -7,7 +7,7 @@ import io.codeforall.bootcamp.javabank.model.account.SavingsAccount;
 import io.codeforall.bootcamp.javabank.services.AccountService;
 import io.codeforall.bootcamp.javabank.services.AccountServiceImpl;
 
-public class AccountServiceTest {
+public class AccountServiceTest_old {
 
     public boolean test() {
 

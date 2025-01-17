@@ -3,7 +3,7 @@ package io.codeforall.bootcamp.javabank;
 import io.codeforall.bootcamp.javabank.model.account.Account;
 import io.codeforall.bootcamp.javabank.model.account.SavingsAccount;
 
-public class SavingsAccountTest {
+public class SavingsAccountTest_old {
 
     public boolean test() {
 
