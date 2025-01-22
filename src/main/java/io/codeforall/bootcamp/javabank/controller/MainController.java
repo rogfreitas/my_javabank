@@ -41,10 +41,10 @@ public class MainController extends AbstractController {
         if (option == UserOptions.QUIT.getOption()) {
             return;
         }
-
+/*
         if (!controllerMap.containsKey(option)) {
             throw new IllegalStateException(Messages.SYSTEM_ERROR);
-        }
+        }*/
 
         controllerMap.get(option).init();
         init();

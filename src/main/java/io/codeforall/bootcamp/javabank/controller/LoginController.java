@@ -16,6 +16,7 @@ public class LoginController extends AbstractController {
      * @param nextController the next controller to set
      */
     public void setNextController(Controller nextController) {
+
         this.nextController = nextController;
     }
 
