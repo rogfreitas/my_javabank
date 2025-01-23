@@ -1,5 +1,6 @@
 package io.codeforall.bootcamp.javabank.model.account;
 
+import io.codeforall.bootcamp.javabank.model.Customer;
 import io.codeforall.bootcamp.javabank.model.Model;
 
 /**
@@ -8,6 +9,9 @@ import io.codeforall.bootcamp.javabank.model.Model;
  */
 public interface Account extends Model {
 
+     Customer getCustomer();
+
+    void setCustomer(Customer customer);
     /**
      * Gets the account balance
      *

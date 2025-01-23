@@ -1,6 +1,7 @@
 package io.codeforall.bootcamp.javabank.model.account;
 
 import io.codeforall.bootcamp.javabank.model.AbstractModel;
+import io.codeforall.bootcamp.javabank.model.Customer;
 
 /**
  * A generic account model entity to be used as a base for concrete types of accounts
@@ -9,6 +10,15 @@ import io.codeforall.bootcamp.javabank.model.AbstractModel;
 public abstract class AbstractAccount extends AbstractModel implements Account {
 
     private double balance = 0;
+    public Customer customer;
+
+    public Customer getCustomer() {
+        return customer;
+    }
+
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
+    }
 
     /**
      * @see Account#getBalance()

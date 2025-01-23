@@ -1,16 +1,17 @@
 package io.codeforall.bootcamp.javabank;
 
 import io.codeforall.bootcamp.javabank.controller.*;
+import io.codeforall.bootcamp.javabank.services.*;
 import io.codeforall.bootcamp.javabank.view.*;
 import org.academiadecodigo.bootcamp.Prompt;
 import io.codeforall.bootcamp.javabank.controller.transaction.DepositController;
 import io.codeforall.bootcamp.javabank.controller.transaction.WithdrawalController;
 import io.codeforall.bootcamp.javabank.factories.AccountFactory;
 import io.codeforall.bootcamp.javabank.model.Customer;
-import io.codeforall.bootcamp.javabank.services.AccountServiceImpl;
-import io.codeforall.bootcamp.javabank.services.AuthServiceImpl;
-import io.codeforall.bootcamp.javabank.services.CustomerServiceImpl;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -20,8 +21,8 @@ import java.util.Map;
 public class Bootstrap {
 
     private AuthServiceImpl authService;
-    private CustomerServiceImpl customerService;
-    private AccountServiceImpl accountService;
+    private CustomerServiceImplDb customerService;
+    private AccountServiceImplDb accountService;
 
     /**
      * Sets the authentication service
@@ -37,7 +38,7 @@ public class Bootstrap {
      *
      * @param customerService the customer service to set
      */
-    public void setCustomerService(CustomerServiceImpl customerService) {
+    public void setCustomerService(CustomerServiceImplDb customerService) {
         this.customerService = customerService;
     }
 
@@ -46,15 +47,17 @@ public class Bootstrap {
      *
      * @param accountService the account service to set
      */
-    public void setAccountService(AccountServiceImpl accountService) {
+    public void setAccountService(AccountServiceImplDb accountService) {
         this.accountService = accountService;
     }
+
+
 
     /**
      * Creates a {@code CustomerService} and populates it with data
      */
     public void loadCustomers() {
-
+/*
         Customer c1 = new Customer();
         Customer c2 = new Customer();
         Customer c3 = new Customer();
@@ -63,7 +66,7 @@ public class Bootstrap {
         c3.setName("Bruno");
         customerService.add(c1);
         customerService.add(c2);
-        customerService.add(c3);
+        customerService.add(c3);*/
     }
 
     /**
@@ -74,10 +77,23 @@ public class Bootstrap {
     public Controller wireObjects() {
 
         // attach all input to standard i/o
+        Connection dbConnection=null;
+        String dbUrl="jdbc:mysql://localhost:3306/javabank";
         Prompt prompt = new Prompt(System.in, System.out);
+        try {
+            if(dbConnection==null) {
+                dbConnection = DriverManager.getConnection(dbUrl, "root", "");
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
 
         // wire services
         authService.setCustomerService(customerService);
+        customerService.setAccountServiceImplDb(accountService);
+        customerService.setDbConnection(dbConnection);
+        accountService.setDbConnection(dbConnection);
+        accountService.setAccountFactory(new AccountFactory());
 
         // wire login controller and view
         LoginController loginController = new LoginController();
