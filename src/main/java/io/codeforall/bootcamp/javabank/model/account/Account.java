@@ -10,6 +10,7 @@ import io.codeforall.bootcamp.javabank.model.Model;
 public interface Account extends Model {
 
      Customer getCustomer();
+     int getGustomerId();
 
     void setCustomer(Customer customer);
     /**

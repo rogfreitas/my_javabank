@@ -3,6 +3,7 @@ package io.codeforall.bootcamp.javabank.services;
 import io.codeforall.bootcamp.javabank.factories.AccountFactory;
 import io.codeforall.bootcamp.javabank.model.Customer;
 import io.codeforall.bootcamp.javabank.model.account.Account;
+import io.codeforall.bootcamp.javabank.model.account.AccountType;
 import io.codeforall.bootcamp.javabank.model.account.SavingsAccount;
 
 import java.sql.*;
@@ -90,15 +91,20 @@ public class AccountServiceImplDb implements AccountService {
    public Account getAccountById(int id){
         Account account;
 
+
        try {
            Statement statement = dbConnection.createStatement();
            String query = "SELECT id,account_type,balance,customer_id FROM account WHERE id="+id+";";
            ResultSet resultSet = statement.executeQuery(query);
+
            if (resultSet.next()) {
-
+               AccountFactory accountFactory=new AccountFactory();
                int accountId = resultSet.getInt("id");
+                   account= accountFactory.createAccount(AccountType.valueOf(resultSet.getString("account_type")));
+                  // account = getAccountById(accountId);
+                   account.setId(accountId);
+                   //account.setCustomer(resultSet.getInt("customer_id"));
 
-                   account=accountServiceImplDb.getAccountById(accountId);
                    accountServiceImplDb.addAccountToList(account);
                    customer.addAccount( account);
 

@@ -17,7 +17,7 @@ public class CustomerServiceImplDb implements CustomerService {
 
     private AccountServiceImplDb accountServiceImplDb;
     private Connection dbConnection;
-    //private Map<Integer, Customer> customerMap = new HashMap<>();
+    private Map<Integer, Customer> customerMap = new HashMap<>();
 
 
     public void setDbConnection(Connection dbConnection) {
@@ -159,6 +159,8 @@ public class CustomerServiceImplDb implements CustomerService {
 */
         return 0;
     }
+
+
 
     /**
      * @see CustomerService#add(Customer)
