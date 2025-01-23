@@ -25,7 +25,9 @@ public class JdbcAccountService implements AccountService {
         this.jdbcTransactionManager=jdbcTransactionManager;
     }
 
-
+    public void setJbdcAccountDao(JBDCAccountDao jbdcAccountDao) {
+        this.jbdcAccountDao = jbdcAccountDao;
+    }
 
     @Override
     public Account get(Integer id) {

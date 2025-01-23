@@ -31,6 +31,8 @@ public class App {
 
         JDBCCustomerDao jdbcCustomerDao= new JDBCCustomerDao();
         JBDCAccountDao jbdcAccountDao= new JBDCAccountDao();
+        jbdcAccountDao.setAccountFactory(accountFactory);
+        jbdcAccountDao.setJdbcSessionManager(jdbcSessionManager);
         jdbcCustomerDao.setJdbcSessionManager(jdbcSessionManager);
         jdbcCustomerDao.setJdbcAccountDao(jbdcAccountDao);
 
@@ -47,6 +49,7 @@ public class App {
         bootstrap.setAccountService(accountService);
         bootstrap.setCustomerService(customerService);
         bootstrap.setAccountFactory(accountFactory);
+
         Controller controller = bootstrap.wireObjects();
 
         // start application
