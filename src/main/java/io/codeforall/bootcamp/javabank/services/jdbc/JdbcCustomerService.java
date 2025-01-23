@@ -3,6 +3,9 @@ package io.codeforall.bootcamp.javabank.services.jdbc;
 import io.codeforall.bootcamp.javabank.persistence.ConnectionManager;
 import io.codeforall.bootcamp.javabank.model.Customer;
 import io.codeforall.bootcamp.javabank.model.account.Account;
+import io.codeforall.bootcamp.javabank.persistence.daos.jdbc.JBDCAccountDao;
+import io.codeforall.bootcamp.javabank.persistence.daos.jdbc.JDBCCustomerDao;
+import io.codeforall.bootcamp.javabank.persistence.jdbc.JDBCTransactionManager;
 import io.codeforall.bootcamp.javabank.services.AccountService;
 import io.codeforall.bootcamp.javabank.services.CustomerService;
 
@@ -13,55 +16,30 @@ public class JdbcCustomerService implements CustomerService {
 
     private AccountService accountService;
     private ConnectionManager connectionManager;
+    private JDBCCustomerDao jdbcCustomerDao;
+    private JDBCTransactionManager jdbcTransactionManager;
 
-    public JdbcCustomerService(ConnectionManager connectionManager) {
-        this.connectionManager = connectionManager;
+    public JdbcCustomerService(JDBCCustomerDao jdbcCustomerDao, JDBCTransactionManager jdbcTransactionManager) {
+        this.jdbcCustomerDao = jdbcCustomerDao;
+        this.jdbcTransactionManager=jdbcTransactionManager;
+
     }
 
     public void setAccountService(AccountService accountService) {
+
         this.accountService = accountService;
     }
 
     @Override
     public Customer get(Integer id) {
 
-        Customer customer = null;
-
-        try {
-            String query = "SELECT customer.id AS cid, first_name, last_name, phone, email, customer.version AS cVersion, account.id AS aid " +
-                    "FROM customer " +
-                    "LEFT JOIN account " +
-                    "ON customer.id = account.customer_id " +
-                    "WHERE customer.id = ?";
-
-            PreparedStatement statement = connectionManager.getConnection().prepareStatement(query);
-            statement.setInt(1, id);
-            ResultSet resultSet = statement.executeQuery();
-
-            while (resultSet.next()) {
-
-                if (customer == null) {
-                    customer = buildCustomer(resultSet);
-                }
-
-                int accountId = resultSet.getInt("aid");
-                Account account = accountService.get(accountId);
-
-                if (account == null) {
-                    break;
-                }
-
-                customer.addAccount(account);
-            }
-
-            statement.close();
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        jdbcTransactionManager.beginRead();
+        Customer customer=jdbcCustomerDao.findById(id);
+        jdbcTransactionManager.commit();
 
         return customer;
     }
+
 
     @Override
     public List<Customer> list() {

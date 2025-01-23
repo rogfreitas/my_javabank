@@ -4,59 +4,46 @@ import io.codeforall.bootcamp.javabank.factories.AccountFactory;
 import io.codeforall.bootcamp.javabank.persistence.ConnectionManager;
 import io.codeforall.bootcamp.javabank.model.account.Account;
 import io.codeforall.bootcamp.javabank.model.account.AccountType;
+import io.codeforall.bootcamp.javabank.persistence.daos.jdbc.JBDCAccountDao;
+import io.codeforall.bootcamp.javabank.persistence.jdbc.JDBCSessionManager;
+import io.codeforall.bootcamp.javabank.persistence.jdbc.JDBCTransactionManager;
 import io.codeforall.bootcamp.javabank.services.AccountService;
 
 import java.sql.*;
 
 public class JdbcAccountService implements AccountService {
 
-    private ConnectionManager connectionManager;
+    private JDBCSessionManager jdbcSessionManager;
     private AccountFactory accountFactory;
+    private JBDCAccountDao jbdcAccountDao;
+    private JDBCTransactionManager jdbcTransactionManager;
 
-    public JdbcAccountService(ConnectionManager connectionManager, AccountFactory accountFactory) {
-        this.connectionManager = connectionManager;
+
+    public JdbcAccountService(JDBCSessionManager jdbcSessionManager,JDBCTransactionManager jdbcTransactionManager, AccountFactory accountFactory) {
+        this.jdbcSessionManager = jdbcSessionManager;
         this.accountFactory = accountFactory;
+        this.jdbcTransactionManager=jdbcTransactionManager;
     }
+
+
 
     @Override
     public Account get(Integer id) {
 
-        Connection connection = connectionManager.getConnection();
-        Account account = null;
-
-        try {
-
-            String query = "SELECT id, account_type, customer_id, balance, version FROM account WHERE id=?";
-            PreparedStatement statement = connection.prepareStatement(query);
-
-            statement.setInt(1, id);
-
-            ResultSet resultSet = statement.executeQuery();
-
-            if (resultSet.next()) {
-
-                AccountType accountType = AccountType.valueOf(resultSet.getString("account_type"));
-
-                account = accountFactory.createAccount(accountType);
-                account.setId(resultSet.getInt("id"));
-                account.setCustomerId(resultSet.getInt("customer_id"));
-                account.credit(resultSet.getInt("balance"));
-                account.setVersion(resultSet.getInt("version"));
-            }
-
-            statement.close();
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        jdbcTransactionManager.beginRead();
+        Account account=jbdcAccountDao.findById(id);
+        jdbcTransactionManager.commit();
 
         return account;
+
+
+
     }
 
     @Override
     public void add(Account account) {
 
-        Connection connection = connectionManager.getConnection();
+        Connection connection = jdbcSessionManager.getCurrentSession();
         PreparedStatement statement = null;
 
         try {
@@ -96,7 +83,7 @@ public class JdbcAccountService implements AccountService {
     @Override
     public void deposit(int id, double amount) {
 
-        Connection connection = connectionManager.getConnection();
+        Connection connection = jdbcSessionManager.getCurrentSession();
         Account account = null;
 
         try {
@@ -127,7 +114,7 @@ public class JdbcAccountService implements AccountService {
     @Override
     public void withdraw(int id, double amount) {
 
-        Connection connection = connectionManager.getConnection();
+        Connection connection = jdbcSessionManager.getCurrentSession();
 
         try {
             connection.setAutoCommit(false);
@@ -157,7 +144,7 @@ public class JdbcAccountService implements AccountService {
     @Override
     public void transfer(int srcId, int dstId, double amount) {
 
-        Connection connection = connectionManager.getConnection();
+        Connection connection = jdbcSessionManager.getCurrentSession();
 
         try {
             connection.setAutoCommit(false);
@@ -197,7 +184,7 @@ public class JdbcAccountService implements AccountService {
 
         String query = "UPDATE account SET balance = ?, version = ? WHERE id = ?";
 
-        PreparedStatement statement = connectionManager.getConnection().prepareStatement(query);
+        PreparedStatement statement = jdbcSessionManager.getCurrentSession().prepareStatement(query);
 
         statement.setDouble(1, totalBalance);
         statement.setInt(2, version + 1);

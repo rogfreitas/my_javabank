@@ -1,6 +1,7 @@
 package io.codeforall.bootcamp.javabank;
 
 import io.codeforall.bootcamp.javabank.controller.*;
+import io.codeforall.bootcamp.javabank.persistence.daos.jdbc.JDBCCustomerDao;
 import io.codeforall.bootcamp.javabank.view.*;
 import org.academiadecodigo.bootcamp.Prompt;
 import io.codeforall.bootcamp.javabank.controller.transaction.DepositController;
@@ -21,6 +22,8 @@ public class Bootstrap {
     private CustomerService customerService;
     private AccountService accountService;
     private AccountFactory accountFactory;
+    private JDBCCustomerDao jdbcCustomerDao;
+
 
     /**
      * Sets the authentication service
