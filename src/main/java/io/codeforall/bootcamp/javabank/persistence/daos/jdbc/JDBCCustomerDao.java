@@ -8,7 +8,10 @@ import io.codeforall.bootcamp.javabank.persistence.jdbc.JDBCSessionManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 public class JDBCCustomerDao implements CustomerDao {
     JDBCSessionManager jdbcSessionManager;
@@ -25,7 +28,37 @@ public class JDBCCustomerDao implements CustomerDao {
 
     @Override
     public List<Customer> findAll() {
-        return List.of();
+
+        Map<Integer, Customer> customers = new HashMap<>();
+        try {
+            String query = "SELECT customer.id AS cid, first_name, last_name, phone, email, customer.version as cVersion, account.id AS aid " +
+                    "FROM customer " +
+                    "LEFT JOIN account " +
+                    "ON customer.id = account.customer_id";
+
+            PreparedStatement statement = jdbcSessionManager.getCurrentSession().prepareStatement(query);
+            ResultSet resultSet = statement.executeQuery();
+
+            while (resultSet.next()) {
+                if (!customers.containsKey(resultSet.getInt("cid"))) {
+                    Customer customer = buildCustomer(resultSet);
+                    customers.put(customer.getId(), customer);
+                }
+
+                Account account = jbdcAccountDao.findById(resultSet.getInt("aid"));
+                if (account != null) {
+                    customers.get(resultSet.getInt("cid")).addAccount(account);
+                }
+            }
+            statement.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return new LinkedList<>(customers.values());
+
+
+       // return List.of();
     }
 
     @Override

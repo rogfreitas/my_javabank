@@ -17,9 +17,13 @@ public class JdbcAccountService implements AccountService {
     private AccountFactory accountFactory;
     private JBDCAccountDao jbdcAccountDao;
     private JDBCTransactionManager jdbcTransactionManager;
+    private ConnectionManager connection;
 
+    public void setConnection(ConnectionManager connection) {
+        this.connection = connection;
+    }
 
-    public JdbcAccountService(JDBCSessionManager jdbcSessionManager,JDBCTransactionManager jdbcTransactionManager, AccountFactory accountFactory) {
+    public JdbcAccountService(JDBCSessionManager jdbcSessionManager, JDBCTransactionManager jdbcTransactionManager, AccountFactory accountFactory) {
         this.jdbcSessionManager = jdbcSessionManager;
         this.accountFactory = accountFactory;
         this.jdbcTransactionManager=jdbcTransactionManager;
@@ -45,50 +49,23 @@ public class JdbcAccountService implements AccountService {
     @Override
     public void add(Account account) {
 
-        Connection connection = jdbcSessionManager.getCurrentSession();
-        PreparedStatement statement = null;
 
-        try {
-            connection.setAutoCommit(false);
+        jdbcTransactionManager.beginWrite();
+        jbdcAccountDao.saveOrUpdate(account);
+        jdbcTransactionManager.commit();
 
-            String query = "INSERT INTO account(account_type, balance, customer_id) " +
-                    "VALUES (?, ?, ?)";
-
-            statement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
-
-            statement.setString(1, account.getAccountType().name());
-            statement.setDouble(2, account.getBalance());
-            statement.setInt(3, account.getCustomerId());
-
-            statement.executeUpdate();
-
-            ResultSet generatedKeys = statement.getGeneratedKeys();
-
-            if (generatedKeys.next()) {
-                account.setId(generatedKeys.getInt(1));
-            }
-
-            statement.close();
-
-            connection.commit();
-
-        } catch (SQLException e) {
-            try {
-                connection.rollback();
-                e.printStackTrace();
-            } catch (SQLException ex) {
-                ex.printStackTrace();
-            }
-        }
     }
 
     @Override
     public void deposit(int id, double amount) {
 
-        Connection connection = jdbcSessionManager.getCurrentSession();
+      Connection connection = this.connection.getConnection();
+
+
         Account account = null;
 
         try {
+
             connection.setAutoCommit(false);
 
             account = get(id);

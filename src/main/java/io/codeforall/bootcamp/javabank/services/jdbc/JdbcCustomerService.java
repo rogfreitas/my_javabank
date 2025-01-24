@@ -44,34 +44,10 @@ public class JdbcCustomerService implements CustomerService {
     @Override
     public List<Customer> list() {
 
-        Map<Integer, Customer> customers = new HashMap<>();
-
-        try {
-            String query = "SELECT customer.id AS cid, first_name, last_name, phone, email, customer.version as cVersion, account.id AS aid " +
-                    "FROM customer " +
-                    "LEFT JOIN account " +
-                    "ON customer.id = account.customer_id";
-
-            PreparedStatement statement = connectionManager.getConnection().prepareStatement(query);
-            ResultSet resultSet = statement.executeQuery();
-
-            while (resultSet.next()) {
-                if (!customers.containsKey(resultSet.getInt("cid"))) {
-                    Customer customer = buildCustomer(resultSet);
-                    customers.put(customer.getId(), customer);
-                }
-
-                Account account = accountService.get(resultSet.getInt("aid"));
-                if (account != null) {
-                    customers.get(resultSet.getInt("cid")).addAccount(account);
-                }
-            }
-            statement.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-        return new LinkedList<>(customers.values());
+        jdbcTransactionManager.beginRead();
+        List< Customer> customers=jdbcCustomerDao.findAll();
+        jdbcTransactionManager.commit();
+        return customers;
     }
 
     @Override

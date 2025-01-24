@@ -5,6 +5,7 @@ import io.codeforall.bootcamp.javabank.model.Customer;
 import io.codeforall.bootcamp.javabank.model.account.Account;
 import io.codeforall.bootcamp.javabank.model.account.AccountType;
 import io.codeforall.bootcamp.javabank.services.AccountService;
+import io.codeforall.bootcamp.javabank.services.jdbc.JdbcAccountService;
 import io.codeforall.bootcamp.javabank.view.NewAccountView;
 
 /**
@@ -53,6 +54,7 @@ public class NewAccountController extends AbstractController {
     public void init() {
 
         newAccountId = createAccount();
+        //createAccount();
         super.init();
     }
 

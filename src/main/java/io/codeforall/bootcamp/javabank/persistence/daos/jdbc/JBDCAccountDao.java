@@ -6,9 +6,7 @@ import io.codeforall.bootcamp.javabank.model.account.AccountType;
 import io.codeforall.bootcamp.javabank.persistence.daos.AccountDao;
 import io.codeforall.bootcamp.javabank.persistence.jdbc.JDBCSessionManager;
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.List;
 
 public class JBDCAccountDao implements AccountDao {
@@ -70,7 +68,46 @@ public class JBDCAccountDao implements AccountDao {
 
     @Override
     public Account saveOrUpdate(Account account) {
-        return null;
+        Connection connection = jdbcSessionManager.getCurrentSession();
+        PreparedStatement statement = null;
+        String query;
+        if (account.getId()==null) {
+            query = "INSERT INTO account(account_type, balance, customer_id) " + "VALUES (?, ?, ?);";
+        }else {
+            query = "UPDATE account SET account_type(?), balance(?), customer_id(?) WHERE id="+account.getId()+";";
+        }
+
+
+        try {
+
+            statement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
+
+            statement.setString(1, account.getAccountType().name());
+            statement.setDouble(2, account.getBalance());
+            statement.setInt(3, account.getCustomerId());
+
+            statement.executeUpdate();
+
+            ResultSet generatedKeys = statement.getGeneratedKeys();
+
+            if (generatedKeys.next()) {
+                account.setId(generatedKeys.getInt(1));
+            }
+
+            statement.close();
+
+            connection.commit();
+
+        } catch (SQLException e) {
+            try {
+                connection.rollback();
+                e.printStackTrace();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+        }
+
+        return account;
     }
 
     @Override

@@ -2,6 +2,7 @@ package io.codeforall.bootcamp.javabank;
 
 import io.codeforall.bootcamp.javabank.controller.Controller;
 import io.codeforall.bootcamp.javabank.factories.AccountFactory;
+import io.codeforall.bootcamp.javabank.persistence.ConnectionManager;
 import io.codeforall.bootcamp.javabank.persistence.daos.jdbc.JBDCAccountDao;
 import io.codeforall.bootcamp.javabank.persistence.jdbc.JDBCSessionManager;
 import io.codeforall.bootcamp.javabank.persistence.jdbc.JDBCTransactionManager;
@@ -20,17 +21,19 @@ public class App {
 
     private void bootStrap() {
 
-        //ConnectionManager connectionManager = new ConnectionManager();
+        ConnectionManager connectionManager = new ConnectionManager();
 
         JDBCTransactionManager jdbcTransactionManager=new JDBCTransactionManager();
         AccountFactory accountFactory = new AccountFactory();
         JDBCSessionManager jdbcSessionManager= new JDBCSessionManager();
-        JdbcAccountService accountService = new JdbcAccountService(jdbcSessionManager,jdbcTransactionManager, accountFactory);
 
+        JdbcAccountService accountService = new JdbcAccountService(jdbcSessionManager,jdbcTransactionManager, accountFactory);
+        accountService.setConnection(connectionManager);
 
 
         JDBCCustomerDao jdbcCustomerDao= new JDBCCustomerDao();
         JBDCAccountDao jbdcAccountDao= new JBDCAccountDao();
+        accountService.setJbdcAccountDao(jbdcAccountDao);
         jbdcAccountDao.setAccountFactory(accountFactory);
         jbdcAccountDao.setJdbcSessionManager(jdbcSessionManager);
         jdbcCustomerDao.setJdbcSessionManager(jdbcSessionManager);
@@ -46,6 +49,7 @@ public class App {
 
         Bootstrap bootstrap = new Bootstrap();
         bootstrap.setAuthService(new AuthServiceImpl());
+
         bootstrap.setAccountService(accountService);
         bootstrap.setCustomerService(customerService);
         bootstrap.setAccountFactory(accountFactory);

@@ -2,6 +2,7 @@ package io.codeforall.bootcamp.javabank;
 
 import io.codeforall.bootcamp.javabank.controller.*;
 import io.codeforall.bootcamp.javabank.persistence.daos.jdbc.JDBCCustomerDao;
+import io.codeforall.bootcamp.javabank.services.jdbc.JdbcAccountService;
 import io.codeforall.bootcamp.javabank.view.*;
 import org.academiadecodigo.bootcamp.Prompt;
 import io.codeforall.bootcamp.javabank.controller.transaction.DepositController;
@@ -20,9 +21,11 @@ public class Bootstrap {
 
     private AuthServiceImpl authService;
     private CustomerService customerService;
+
     private AccountService accountService;
     private AccountFactory accountFactory;
     private JDBCCustomerDao jdbcCustomerDao;
+
 
 
     /**
@@ -48,7 +51,7 @@ public class Bootstrap {
      *
      * @param accountService the account service to set
      */
-    public void setAccountService(AccountService accountService) {
+    public void setAccountService(JdbcAccountService accountService) {
         this.accountService = accountService;
     }
 
