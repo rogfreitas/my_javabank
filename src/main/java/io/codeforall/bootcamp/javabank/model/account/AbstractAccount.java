@@ -1,15 +1,23 @@
 package io.codeforall.bootcamp.javabank.model.account;
 
 import io.codeforall.bootcamp.javabank.model.AbstractModel;
+import io.codeforall.bootcamp.javabank.model.Customer;
+
+import javax.persistence.*;
 
 /**
  * A generic account model entity to be used as a base for concrete types of accounts
  * @see Account
  */
+@Entity
+@Table(name="account")
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name="account_type",discriminatorType = DiscriminatorType.STRING)
 public abstract class AbstractAccount extends AbstractModel implements Account {
-
     private double balance = 0;
-    private Integer customerId;
+    @ManyToOne(fetch = FetchType.EAGER)
+    private Customer customer;
+    //private Integer customerId;
 
     /**
      * @see Account#getBalance()
@@ -70,11 +78,11 @@ public abstract class AbstractAccount extends AbstractModel implements Account {
 
     @Override
     public Integer getCustomerId() {
-        return customerId;
+        return customer.getId();
     }
 
     @Override
-    public void setCustomerId(Integer id) {
-        customerId = id;
+    public void setCustomer(Customer Customer) {
+        this.customer = customer;
     }
 }

@@ -39,6 +39,7 @@ public class MainController extends AbstractController {
     public void onMenuSelection(int option) {
 
         if (option == UserOptions.QUIT.getOption()) {
+
             return;
         }
 

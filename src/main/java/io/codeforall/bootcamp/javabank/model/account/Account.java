@@ -1,5 +1,6 @@
 package io.codeforall.bootcamp.javabank.model.account;
 
+import io.codeforall.bootcamp.javabank.model.Customer;
 import io.codeforall.bootcamp.javabank.model.Model;
 
 /**
@@ -73,5 +74,5 @@ public interface Account extends Model {
      *
      * @param id the owner customer id
      */
-    void setCustomerId(Integer id);
+    void setCustomer(Customer customer);
 }

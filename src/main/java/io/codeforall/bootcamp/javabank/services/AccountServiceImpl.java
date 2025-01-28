@@ -5,14 +5,17 @@ import io.codeforall.bootcamp.javabank.persistence.TransactionManager;
 import io.codeforall.bootcamp.javabank.persistence.daos.AccountDao;
 import io.codeforall.bootcamp.javabank.model.account.Account;
 
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+
 
 public class AccountServiceImpl implements AccountService {
 
     private AccountDao accountDao;
-    private TransactionManager tm;
+    private EntityManagerFactory emf;
 
-    public void setTm(TransactionManager tm) {
-        this.tm = tm;
+    public void setEmf(EntityManagerFactory emf) {
+        this.emf = emf;
     }
 
     public void setAccountDAO(AccountDao accountDao) {
@@ -21,34 +24,43 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public Account get(Integer id) {
-
+        EntityManager em=null;
         try {
-            tm.beginRead();
+            em= emf.createEntityManager();
+            accountDao.setEm(em);
+            em.getTransaction().begin();
+
             return accountDao.findById(id);
         } finally {
-            tm.commit();
+            em.getTransaction().commit();
+            if(em!=null) em.close();
         }
 
     }
 
     @Override
     public void add(Account account) {
-
+        EntityManager em=null;
         try {
-            tm.beginWrite();
+            em= emf.createEntityManager();
+            accountDao.setEm(em);
+            em.getTransaction().begin();
             accountDao.saveOrUpdate(account);
-            tm.commit();
+            em.getTransaction().commit();
         } catch (TransactionException e) {
-            tm.rollback();
+            em.getTransaction().rollback();
+            if(em!=null) em.close();
         }
 
     }
 
     @Override
     public void deposit(int id, double amount) {
-
+        EntityManager em=null;
         try {
-            tm.beginWrite();
+            em= emf.createEntityManager();
+            accountDao.setEm(em);
+            em.getTransaction().begin();
 
             Account account = accountDao.findById(id);
 
@@ -58,18 +70,20 @@ public class AccountServiceImpl implements AccountService {
 
             account.credit(amount);
             accountDao.saveOrUpdate(account);
-            tm.commit();
+            em.getTransaction().commit();
         } catch (TransactionException e) {
-            tm.rollback();
+            em.getTransaction().rollback();
+            if(em!=null) em.close();
         }
     }
 
     @Override
     public void withdraw(int id, double amount) {
-
+        EntityManager em=null;
         try {
-            tm.beginWrite();
-
+            em= emf.createEntityManager();
+            accountDao.setEm(em);
+            em.getTransaction().begin();
             Account account = accountDao.findById(id);
 
             if (account == null) {
@@ -78,18 +92,20 @@ public class AccountServiceImpl implements AccountService {
 
             account.debit(amount);
             accountDao.saveOrUpdate(account);
-            tm.commit();
-
+            em.getTransaction().commit();
         } catch (TransactionException e) {
-            tm.rollback();
+            em.getTransaction().rollback();
+            if(em!=null) em.close();
         }
     }
 
     @Override
     public void transfer(int srcId, int dstId, double amount) {
-
+        EntityManager em=null;
         try {
-            tm.beginWrite();
+            em= emf.createEntityManager();
+            accountDao.setEm(em);
+            em.getTransaction().begin();
             Account srcAccount = accountDao.findById(srcId);
             Account dstAccount = accountDao.findById(dstId);
 
@@ -104,9 +120,10 @@ public class AccountServiceImpl implements AccountService {
                 accountDao.saveOrUpdate(srcAccount);
                 accountDao.saveOrUpdate(dstAccount);
             }
-            tm.commit();
+            em.getTransaction().commit();
         } catch (TransactionException e) {
-            tm.rollback();
+            em.getTransaction().rollback();
+            if(em!=null) em.close();
         }
     }
 

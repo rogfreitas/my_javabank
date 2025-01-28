@@ -6,11 +6,13 @@ import io.codeforall.bootcamp.javabank.persistence.daos.CustomerDao;
 import io.codeforall.bootcamp.javabank.model.Customer;
 import io.codeforall.bootcamp.javabank.model.account.Account;
 
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
 import java.util.*;
 
 public class CustomerServiceImpl implements CustomerService {
 
-    private TransactionManager tm;
+    private EntityManagerFactory emf;
     private CustomerDao customerDao;
 
 
@@ -18,31 +20,41 @@ public class CustomerServiceImpl implements CustomerService {
         this.customerDao = customerDao;
     }
 
-    public void setTm(TransactionManager tm) {
-        this.tm = tm;
+    public void setEmf(EntityManagerFactory emf) {
+        this.emf = emf;
     }
 
 
     @Override
     public Customer get(Integer id) {
-
+        EntityManager em=null;
         try {
-            tm.beginRead();
-            return customerDao.findById(id);
+            em= emf.createEntityManager();
+            customerDao.setEm(em);
+            em.getTransaction().begin();
+
+
+                   Customer customerBD= customerDao.findById(id);
+
+            return customerBD;
         } finally {
-            tm.commit();
+            em.getTransaction().commit();
+            if(em!=null) em.close();
         }
 
     }
 
     @Override
     public List<Customer> list() {
-
+        EntityManager em=null;
         try {
-            tm.beginRead();
+            em=emf.createEntityManager();
+            customerDao.setEm(em);
+            em.getTransaction().begin();
             return customerDao.findAll();
         } finally {
-            tm.commit();
+            em.getTransaction().commit();
+            if(em!=null) em.close();
         }
     }
 
@@ -91,13 +103,16 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public void add(Customer customer) {
-
+        EntityManager em=null;
         try {
-            tm.beginWrite();
+            em=emf.createEntityManager();
+            customerDao.setEm(em);
+            em.getTransaction().begin();
             customerDao.saveOrUpdate(customer);
-            tm.commit();
+            em.getTransaction().commit();
         } catch (TransactionException e){
-            tm.rollback();
+            em.getTransaction().rollback();
+            if(em!=null) em.close();
         }
 
     }

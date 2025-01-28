@@ -2,6 +2,7 @@ package io.codeforall.bootcamp.javabank.persistence.daos;
 
 import io.codeforall.bootcamp.javabank.model.Model;
 
+import javax.persistence.EntityManager;
 import java.util.List;
 
 public interface Dao<T extends Model> {
@@ -35,4 +36,6 @@ public interface Dao<T extends Model> {
      * @param id the id of the model to be deleted
      */
     void delete(Integer id);
+
+    void setEm(EntityManager em);
 }

@@ -1,13 +1,15 @@
 package io.codeforall.bootcamp.javabank;
 
 import io.codeforall.bootcamp.javabank.controller.Controller;
-import io.codeforall.bootcamp.javabank.persistence.daos.jdbc.JDBCAccountDao;
-import io.codeforall.bootcamp.javabank.persistence.daos.jdbc.JDBCCustomerDao;
-import io.codeforall.bootcamp.javabank.persistence.jdbc.JDBCSessionManager;
-import io.codeforall.bootcamp.javabank.persistence.jdbc.JDBCTransactionManager;
+import io.codeforall.bootcamp.javabank.persistence.daos.hibernate.HibernateAccountDao;
+import io.codeforall.bootcamp.javabank.persistence.daos.hibernate.HibernateCustomerDao;
+
 import io.codeforall.bootcamp.javabank.services.AccountServiceImpl;
 import io.codeforall.bootcamp.javabank.services.AuthServiceImpl;
 import io.codeforall.bootcamp.javabank.services.CustomerServiceImpl;
+
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
 
 public class App {
 
@@ -19,24 +21,22 @@ public class App {
 
     private void bootStrap() {
 
-        JDBCSessionManager JDBCSessionManager = new JDBCSessionManager();
-        JDBCTransactionManager transactionManager = new JDBCTransactionManager();
-        transactionManager.setConnectionManager(JDBCSessionManager);
-        JDBCAccountDao JDBCAccountDao = new JDBCAccountDao();
-        JDBCCustomerDao JDBCCustomerDao = new JDBCCustomerDao();
 
-        JDBCAccountDao.setConnectionManager(JDBCSessionManager);
-        JDBCCustomerDao.setAccountDAO(JDBCAccountDao);
-        JDBCCustomerDao.setConnectionManager(JDBCSessionManager);
+        EntityManagerFactory emf= Persistence.createEntityManagerFactory("test");
+
+        HibernateAccountDao HibernateAccountDao = new HibernateAccountDao();
+        HibernateCustomerDao HibernateCustomerDao = new HibernateCustomerDao();
+
+        HibernateCustomerDao.setAccountDAO(HibernateAccountDao);
 
         AccountServiceImpl accountService = new AccountServiceImpl();
         CustomerServiceImpl customerService = new CustomerServiceImpl();
 
-        customerService.setCustomerDAO(JDBCCustomerDao);
-        customerService.setTm(transactionManager);
+        customerService.setCustomerDAO(HibernateCustomerDao);
+        customerService.setEmf(emf);
 
-        accountService.setAccountDAO(JDBCAccountDao);
-        accountService.setTm(transactionManager);
+        accountService.setAccountDAO(HibernateAccountDao);
+        accountService.setEmf(emf);
 
         Bootstrap bootstrap = new Bootstrap();
         bootstrap.setAuthService(new AuthServiceImpl());
@@ -44,10 +44,8 @@ public class App {
         bootstrap.setCustomerService(customerService);
         Controller controller = bootstrap.wireObjects();
 
-        // start application
+
         controller.init();
-
-        JDBCSessionManager.stopSession();
-
+        emf.close();
     }
 }

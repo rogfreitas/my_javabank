@@ -2,6 +2,7 @@ package io.codeforall.bootcamp.javabank.persistence.daos;
 
 import io.codeforall.bootcamp.javabank.model.Customer;
 
+import javax.persistence.EntityManager;
 import java.util.List;
 
 public interface CustomerDao extends Dao<Customer> {
@@ -12,4 +13,5 @@ public interface CustomerDao extends Dao<Customer> {
      * @return the list of customer ids
      */
     List<Integer> getCustomerIds();
+
 }
