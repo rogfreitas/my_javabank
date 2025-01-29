@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean id="loginView" class="io.codeforall.bootcamp.javabank.view.LoginView">
+        <property name="loginController" ref="loginController"/>
+        <property name="prompt" ref="prompt"/>
+    </bean>
+
+    <bean id="mainView" class="io.codeforall.bootcamp.javabank.view.MainView">
+        <property name="prompt" ref="prompt"/>
+        <property name="mainController" ref="mainController"/>
+    </bean>
+
+    <bean id="balanceView" class="io.codeforall.bootcamp.javabank.view.BalanceView">
+        <property name="balanceController" ref="balanceController"/>
+    </bean>
+
+    <bean id="newAccountView" class="io.codeforall.bootcamp.javabank.view.NewAccountView">
+        <property name="newAccountController" ref="newAccountController"/>
+    </bean>
+
+    <bean id="depositView" class="io.codeforall.bootcamp.javabank.view.AccountTransactionView">
+        <property name="prompt" ref="prompt"/>
+        <property name="transactionController" ref="depositController"/>
+    </bean>
+
+    <bean id="withdrawView" class="io.codeforall.bootcamp.javabank.view.AccountTransactionView">
+        <property name="prompt" ref="prompt"/>
+        <property name="transactionController" ref="withdrawalController"/>
+    </bean>
+
+    <bean id="recipientsView" class="io.codeforall.bootcamp.javabank.view.RecipientsView">
+        <property name="recipientsController" ref="recipientsController"/>
+    </bean>
+</beans>

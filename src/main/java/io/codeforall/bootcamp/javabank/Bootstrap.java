@@ -57,81 +57,82 @@ public class Bootstrap {
     public Controller wireObjects() {
 
         // attach all input to standard i/o
-        Prompt prompt = new Prompt(System.in, System.out);
+       // Prompt prompt = new Prompt(System.in, System.out);
 
         // wire services
-        authService.setCustomerService(customerService);
+       // authService.setCustomerService(customerService);
 
         // wire login controller and view
-        LoginController loginController = new LoginController();
-        LoginView loginView = new LoginView();
-        loginController.setView(loginView);
-        loginController.setAuthService(authService);
-        loginView.setLoginController(loginController);
-        loginView.setPrompt(prompt);
+       // LoginController loginController = new LoginController();
+       // LoginView loginView = new LoginView();
+      //  loginController.setView(loginView);
+       // loginController.setAuthService(authService);
+      //  loginView.setLoginController(loginController);
+      //  loginView.setPrompt(prompt);
 
         // wire main controller and view
-        MainController mainController = new MainController();
-        MainView mainView = new MainView();
-        mainView.setPrompt(prompt);
-        mainView.setMainController(mainController);
-        mainController.setView(mainView);
-        mainController.setAuthService(authService);
-        loginController.setNextController(mainController);
+        //MainController mainController = new MainController();
+        //MainView mainView = new MainView();
+        //mainView.setPrompt(prompt);
+      //  mainView.setMainController(mainController);
+        //mainController.setView(mainView);
+        //mainController.setAuthService(authService);
+       // loginController.setNextController(mainController);
 
         // wire balance controller and view
-        BalanceController balanceController = new BalanceController();
-        BalanceView balanceView = new BalanceView();
-        balanceView.setBalanceController(balanceController);
-        balanceController.setView(balanceView);
-        balanceController.setCustomerService(customerService);
-        balanceController.setAuthService(authService);
+      //  BalanceController balanceController = new BalanceController();
+       // BalanceView balanceView = new BalanceView();
+        //balanceView.setBalanceController(balanceController);
+        //balanceController.setView(balanceView);
+        //balanceController.setCustomerService(customerService);
+        //balanceController.setAuthService(authService);
 
         // wire new account controller and view
-        NewAccountView newAccountView = new NewAccountView();
-        NewAccountController newAccountController = new NewAccountController();
-        newAccountController.setAccountService(accountService);
-        newAccountController.setAuthService(authService);
-        newAccountController.setAccountFactory(new AccountFactory());
-        newAccountController.setView(newAccountView);
-        newAccountView.setNewAccountController(newAccountController);
+        //NewAccountView newAccountView = new NewAccountView();
+        //NewAccountController newAccountController = new NewAccountController();
+       // newAccountController.setAccountService(accQAountService);
+        //newAccountController.setAuthService(authService);
+        //newAccountController.setAccountFactory(new AccountFactory());
+        //newAccountController.setView(newAccountView);
+        //newAccountView.setNewAccountController(newAccountController);
 
         // wire account transactions controllers and views
-        DepositController depositController = new DepositController();
-        WithdrawalController withdrawalController = new WithdrawalController();
-        AccountTransactionView depositView = new AccountTransactionView();
-        AccountTransactionView withdrawView = new AccountTransactionView();
-        depositController.setAuthService(authService);
-        depositController.setAccountService(accountService);
-        depositController.setCustomerService(customerService);
-        depositController.setView(depositView);
-        withdrawalController.setAuthService(authService);
-        withdrawalController.setCustomerService(customerService);
-        withdrawalController.setAccountService(accountService);
-        withdrawalController.setView(withdrawView);
-        depositView.setPrompt(prompt);
-        depositView.setTransactionController(depositController);
-        withdrawView.setPrompt(prompt);
-        withdrawView.setTransactionController(withdrawalController);
+        //DepositController depositController = new DepositController();
+        //WithdrawalController withdrawalController = new WithdrawalController();
+        //AccountTransactionView depositView = new AccountTransactionView();
+        //AccountTransactionView withdrawView = new AccountTransactionView();
+       // depositController.setAuthService(authService);
+        //depositController.setAccountService(accountService);
+        //depositController.setCustomerService(customerService);
+        //depositController.setView(depositView);
+        //withdrawalController.setAuthService(authService);
+        //withdrawalController.setCustomerService(customerService);
+        //withdrawalController.setAccountService(accountService);
+        //withdrawalController.setView(withdrawView);
+        //depositView.setPrompt(prompt);
+        //depositView.setTransactionController(depositController);
+        //withdrawView.setPrompt(prompt);
+        //withdrawView.setTransactionController(withdrawalController);
 
         // wire recipients controller and view
-        RecipientsController recipientsController = new RecipientsController();
-        RecipientsView recipientsView = new RecipientsView();
-        recipientsView.setRecipientsController(recipientsController);
-        recipientsController.setView(recipientsView);
-        recipientsController.setAuthService(authService);
-        recipientsController.setCustomerService(customerService);
+        //RecipientsController recipientsController = new RecipientsController();
+        //RecipientsView recipientsView = new RecipientsView();
+        //recipientsView.setRecipientsController(recipientsController);
+        //recipientsController.setView(recipientsView);
+        //recipientsController.setAuthService(authService);
+        //recipientsController.setCustomerService(customerService);
 
         // setup the controller map
-        Map<Integer, Controller> controllerMap = new HashMap<>();
-        controllerMap.put(UserOptions.GET_BALANCE.getOption(), balanceController);
-        controllerMap.put(UserOptions.OPEN_ACCOUNT.getOption(), newAccountController);
-        controllerMap.put(UserOptions.DEPOSIT.getOption(), depositController);
-        controllerMap.put(UserOptions.WITHDRAW.getOption(), withdrawalController);
-        controllerMap.put(UserOptions.LIST_RECIPIENTS.getOption(), recipientsController);
+       // Map<Integer, Controller> controllerMap = new HashMap<>();
+        //controllerMap.put(UserOptions.GET_BALANCE.getOption(), balanceController);
+        //controllerMap.put(UserOptions.OPEN_ACCOUNT.getOption(), newAccountController);
+        //controllerMap.put(UserOptions.DEPOSIT.getOption(), depositController);
+        //controllerMap.put(UserOptions.WITHDRAW.getOption(), withdrawalController);
+        //controllerMap.put(UserOptions.LIST_RECIPIENTS.getOption(), recipientsController);
 
-        mainController.setControllerMap(controllerMap);
+        //mainController.setControllerMap(controllerMap);
 
-        return loginController;
+        //return loginController;
+        return null;
     }
 }

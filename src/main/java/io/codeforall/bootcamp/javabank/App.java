@@ -1,6 +1,7 @@
 package io.codeforall.bootcamp.javabank;
 
 import io.codeforall.bootcamp.javabank.controller.Controller;
+import io.codeforall.bootcamp.javabank.controller.LoginController;
 import io.codeforall.bootcamp.javabank.services.AccountServiceImpl;
 import io.codeforall.bootcamp.javabank.services.AuthServiceImpl;
 import io.codeforall.bootcamp.javabank.services.CustomerServiceImpl;
@@ -10,35 +11,42 @@ import io.codeforall.bootcamp.javabank.persistence.dao.jpa.JpaAccountDao;
 import io.codeforall.bootcamp.javabank.persistence.dao.jpa.JpaCustomerDao;
 import io.codeforall.bootcamp.javabank.persistence.jpa.JpaSessionManager;
 import io.codeforall.bootcamp.javabank.persistence.jpa.JpaTransactionManager;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import javax.persistence.EntityManagerFactory;
 
 public class App {
 
     public static void main(String[] args) {
+        ApplicationContext context = new ClassPathXmlApplicationContext("springConfig/masterConfig.xml");
 
-        JpaBootstrap jpa = new JpaBootstrap();
-        EntityManagerFactory emf = jpa.start();
+        // retrieve configured instance
+         LoginController loginController = context.getBean("loginController", LoginController.class);
+         loginController.init();
 
-        JpaSessionManager sm = new JpaSessionManager(emf);
-        TransactionManager tx = new JpaTransactionManager(sm);
+        //JpaBootstrap jpa = new JpaBootstrap();  /NA
+        //EntityManagerFactory emf = jpa.start(); //NA
 
-        App app = new App();
-        app.bootStrap(tx, sm);
+        //JpaSessionManager sm = new JpaSessionManager(emf); // done with notation
+        //TransactionManager tx = new JpaTransactionManager(sm);
 
-        jpa.stop();
+        //App app = new App();
+        //app.bootStrap(tx, sm);
+
+        //jpa.stop();
 
     }
-
+/*
     private void bootStrap(TransactionManager tx, JpaSessionManager sm) {
 
-        AccountServiceImpl accountService = new AccountServiceImpl();
-        accountService.setAccountDao(new JpaAccountDao(sm));
-        accountService.setTransactionManager(tx);
+        //AccountServiceImpl accountService = new AccountServiceImpl();
+        //accountService.setAccountDao(new JpaAccountDao(sm));
+        //accountService.setTransactionManager(tx);
 
-        CustomerServiceImpl customerService = new CustomerServiceImpl();
-        customerService.setCustomerDao(new JpaCustomerDao(sm));
-        customerService.setTransactionManager(tx);
+        //CustomerServiceImpl customerService = new CustomerServiceImpl();
+        //customerService.setCustomerDao(new JpaCustomerDao(sm));
+        //customerService.setTransactionManager(tx);
 
         Bootstrap bootstrap = new Bootstrap();
 
@@ -49,6 +57,6 @@ public class App {
         Controller controller = bootstrap.wireObjects();
 
         // start application
-        controller.init();
-    }
+        //controller.init();
+    }*/
 }
