@@ -1,6 +1,6 @@
 package io.codeforall.bootcamp.javabank.services;
 
-import io.codeforall.bootcamp.javabank.model.account.Account;
+import io.codeforall.bootcamp.javabank.model.account.AbstractAccount;
 import io.codeforall.bootcamp.javabank.persistence.TransactionException;
 import io.codeforall.bootcamp.javabank.persistence.TransactionManager;
 import io.codeforall.bootcamp.javabank.persistence.dao.AccountDao;
@@ -37,7 +37,7 @@ public class AccountServiceImpl implements AccountService {
      * @see AccountService#get(Integer)
      */
     @Override
-    public Account get(Integer id) {
+    public AbstractAccount get(Integer id) {
 
         try {
 
@@ -50,10 +50,10 @@ public class AccountServiceImpl implements AccountService {
     }
 
     /**
-     * @see AccountService#add(Account)
+     * @see AccountService#add(AbstractAccount)
      */
     @Override
-    public Integer add(Account account) {
+    public Integer add(AbstractAccount account) {
 
         Integer id = null;
 
@@ -83,7 +83,7 @@ public class AccountServiceImpl implements AccountService {
 
             tx.beginWrite();
 
-            Optional<Account> account = Optional.ofNullable(accountDao.findById(id));
+            Optional<AbstractAccount> account = Optional.ofNullable(accountDao.findById(id));
 
             if (!account.isPresent()) {
                 tx.rollback();
@@ -112,7 +112,7 @@ public class AccountServiceImpl implements AccountService {
 
             tx.beginWrite();
 
-            Optional<Account> account = Optional.ofNullable(accountDao.findById(id));
+            Optional<AbstractAccount> account = Optional.ofNullable(accountDao.findById(id));
 
             if (!account.isPresent()) {
                 tx.rollback();
@@ -141,8 +141,8 @@ public class AccountServiceImpl implements AccountService {
 
             tx.beginWrite();
 
-            Optional<Account> srcAccount = Optional.ofNullable(accountDao.findById(srcId));
-            Optional<Account> dstAccount = Optional.ofNullable(accountDao.findById(dstId));
+            Optional<AbstractAccount> srcAccount = Optional.ofNullable(accountDao.findById(srcId));
+            Optional<AbstractAccount> dstAccount = Optional.ofNullable(accountDao.findById(dstId));
 
             if (!srcAccount.isPresent() || !dstAccount.isPresent()) {
                 tx.rollback();

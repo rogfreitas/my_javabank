@@ -1,64 +1,78 @@
 package io.codeforall.bootcamp.javabank.model.account;
 
-import io.codeforall.bootcamp.javabank.model.AbstractModel;
 import io.codeforall.bootcamp.javabank.model.Customer;
+import io.codeforall.bootcamp.javabank.model.Model;
 
-import javax.persistence.*;
+/**
+ * Common interface for bank accounts, provides methods to access account
+ * information and perform account transactions
+ */
+public interface Account extends Model {
 
-@Entity
-@Table(name = "account")
-@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-@DiscriminatorColumn(name = "account_type")
-public abstract class Account extends AbstractModel {
+    /**
+     * Gets the account balance
+     *
+     * @return the account balance
+     */
+    double getBalance();
 
-    private double balance = 0;
+    /**
+     * Gets the account type
+     *
+     * @return the account type
+     */
+    AccountType getAccountType();
 
-    @ManyToOne
-    private Customer customer;
+    /**
+     * Credits the account
+     *
+     * @param amount the amount to credit
+     * @see Account#canCredit(double)
+     */
+    void credit(double amount);
 
-    public void credit(double amount) {
-        if (canCredit(amount)) {
-            balance += amount;
-        }
-    }
+    /**
+     * Debits the account
+     *
+     * @param amount the amount to debit
+     * @see Account#canDebit(double)
+     */
+    void debit(double amount);
 
-    public void debit(double amount) {
-        if (canDebit(amount)) {
-            balance -= amount;
-        }
-    }
+    /**
+     * Checks if a specific amount can be credited on the account
+     *
+     * @param amount the amount to check
+     * @return {@code true} if the account can be credited
+     */
+    boolean canCredit(double amount);
 
-    public double getBalance() {
-        return balance;
-    }
+    /**
+     * Checks if a specific amount can be debited from the account
+     *
+     * @param amount the amount to check
+     * @return {@code true} if the account can be debited
+     */
+    boolean canDebit(double amount);
 
-    public abstract AccountType getAccountType();
+    /**
+     * Checks if the account can be withdrawn
+     *
+     * @return {@code true} if withdraw can be done
+     */
+    boolean canWithdraw();
 
-    public boolean canDebit(double amount) {
-        return amount > 0 && amount <= balance;
-    }
+    /**
+     * Returns the owning customer
+     *
+     * @return the owning customer
+     */
+    Customer getCustomer();
 
-    public boolean canCredit(double amount) {
-        return amount > 0;
-    }
-
-    public boolean canWithdraw() {
-        return true;
-    }
-
-    public Customer getCustomer() {
-        return customer;
-    }
-
-    public void setCustomer(Customer customer) {
-        this.customer = customer;
-    }
-
-    @Override
-    public String toString() {
-        return "Account{" +
-                "balance=" + balance +
-                ", customerId=" + (customer != null ? customer.getId() : null) +
-                "} " + super.toString();
-    }
+    /**
+     * Sets the owning customer
+     *
+     * @param customer the owner customer
+     */
+    void setCustomer(Customer customer);
 }

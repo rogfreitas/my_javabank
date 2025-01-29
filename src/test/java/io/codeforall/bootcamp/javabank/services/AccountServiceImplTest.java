@@ -1,6 +1,6 @@
 package io.codeforall.bootcamp.javabank.services;
 
-import io.codeforall.bootcamp.javabank.model.account.Account;
+import io.codeforall.bootcamp.javabank.model.account.AbstractAccount;
 import io.codeforall.bootcamp.javabank.model.account.CheckingAccount;
 import io.codeforall.bootcamp.javabank.model.account.SavingsAccount;
 import io.codeforall.bootcamp.javabank.persistence.TransactionException;
@@ -36,9 +36,9 @@ public class AccountServiceImplTest {
 
         // setup
         int fakeId = 9999;
-        Account fakeAccount = mock(Account.class);
+        AbstractAccount fakeAccount = mock(AbstractAccount.class);
         when(fakeAccount.getId()).thenReturn(fakeId);
-        when(accountDao.saveOrUpdate(any(Account.class))).thenReturn(fakeAccount);
+        when(accountDao.saveOrUpdate(any(AbstractAccount.class))).thenReturn(fakeAccount);
 
         // exercise
         int id = accountService.add(new CheckingAccount());
@@ -57,9 +57,9 @@ public class AccountServiceImplTest {
 
         // setup
         int fakeId = 9999;
-        Account fakeAccount = mock(Account.class);
+        AbstractAccount fakeAccount = mock(AbstractAccount.class);
         when(fakeAccount.getId()).thenReturn(fakeId);
-        when(accountDao.saveOrUpdate(any(Account.class))).thenReturn(fakeAccount);
+        when(accountDao.saveOrUpdate(any(AbstractAccount.class))).thenReturn(fakeAccount);
 
         // exercise
         int id = accountService.add(new SavingsAccount());
@@ -75,7 +75,7 @@ public class AccountServiceImplTest {
     public void testAddFail() {
 
         // setup
-        doThrow(new TransactionException(new RuntimeException())).when(accountDao).saveOrUpdate(any(Account.class));
+        doThrow(new TransactionException(new RuntimeException())).when(accountDao).saveOrUpdate(any(AbstractAccount.class));
 
         // exercise
         accountService.add(new SavingsAccount());
@@ -93,7 +93,7 @@ public class AccountServiceImplTest {
         // setup
         int fakeId = 1;
         double amount = 100.5;
-        Account fakeAccount = mock(Account.class);
+        AbstractAccount fakeAccount = mock(AbstractAccount.class);
         when(accountDao.findById(fakeId)).thenReturn(fakeAccount);
 
         // exercise
@@ -145,7 +145,7 @@ public class AccountServiceImplTest {
         // setup
         int fakeId = 1;
         double amount = 100.5;
-        Account fakeAccount = mock(Account.class);
+        AbstractAccount fakeAccount = mock(AbstractAccount.class);
         when(accountDao.findById(fakeId)).thenReturn(fakeAccount);
         when(accountDao.findById(fakeId).canWithdraw()).thenReturn(true);
 
@@ -198,8 +198,8 @@ public class AccountServiceImplTest {
         int fakeSrcId = 9998;
         int fakeDstId = 9999;
         double amount = 100.5;
-        Account fakeSrcAccount = mock(Account.class);
-        Account fakeDstAccount = mock(Account.class);
+        AbstractAccount fakeSrcAccount = mock(AbstractAccount.class);
+        AbstractAccount fakeDstAccount = mock(AbstractAccount.class);
         when(accountDao.findById(fakeSrcId)).thenReturn(fakeSrcAccount);
         when(accountDao.findById(fakeDstId)).thenReturn(fakeDstAccount);
         when(fakeSrcAccount.canDebit(anyDouble())).thenReturn(true);
@@ -228,8 +228,8 @@ public class AccountServiceImplTest {
         int fakeSrcId = 9998;
         int fakeDstId = 9999;
         double amount = 100.5;
-        Account fakeSrcAccount = mock(Account.class);
-        Account fakeDstAccount = mock(Account.class);
+        AbstractAccount fakeSrcAccount = mock(AbstractAccount.class);
+        AbstractAccount fakeDstAccount = mock(AbstractAccount.class);
         when(accountDao.findById(fakeSrcId)).thenReturn(fakeSrcAccount);
         when(accountDao.findById(fakeDstId)).thenReturn(fakeDstAccount);
         when(fakeSrcAccount.canDebit(anyDouble())).thenReturn(false);
@@ -255,8 +255,8 @@ public class AccountServiceImplTest {
         int fakeSrcId = 9998;
         int fakeDstId = 9999;
         double amount = 100.5;
-        Account fakeSrcAccount = mock(Account.class);
-        Account fakeDstAccount = mock(Account.class);
+        AbstractAccount fakeSrcAccount = mock(AbstractAccount.class);
+        AbstractAccount fakeDstAccount = mock(AbstractAccount.class);
         when(accountDao.findById(fakeSrcId)).thenReturn(fakeSrcAccount);
         when(accountDao.findById(fakeDstId)).thenReturn(fakeDstAccount);
         when(fakeSrcAccount.canDebit(anyDouble())).thenReturn(true);
@@ -282,7 +282,7 @@ public class AccountServiceImplTest {
         int fakeSrcId = 9998;
         int fakeDstId = 9999;
         double amount = 100.5;
-        Account fakeDstAccount = mock(Account.class);
+        AbstractAccount fakeDstAccount = mock(AbstractAccount.class);
         when(accountDao.findById(fakeSrcId)).thenReturn(null);
         when(accountDao.findById(fakeDstId)).thenReturn(fakeDstAccount);
 
@@ -303,7 +303,7 @@ public class AccountServiceImplTest {
         int fakeSrcId = 9998;
         int fakeDstId = 9999;
         double amount = 100.5;
-        Account fakeSrcAccount = mock(Account.class);
+        AbstractAccount fakeSrcAccount = mock(AbstractAccount.class);
         when(accountDao.findById(fakeSrcId)).thenReturn(fakeSrcAccount);
         when(accountDao.findById(fakeDstId)).thenReturn(null);
 

@@ -2,7 +2,7 @@ package io.codeforall.bootcamp.javabank.services;
 
 import io.codeforall.bootcamp.javabank.model.Customer;
 import io.codeforall.bootcamp.javabank.model.Recipient;
-import io.codeforall.bootcamp.javabank.model.account.Account;
+import io.codeforall.bootcamp.javabank.model.account.AbstractAccount;
 import io.codeforall.bootcamp.javabank.model.account.CheckingAccount;
 import io.codeforall.bootcamp.javabank.persistence.TransactionException;
 import io.codeforall.bootcamp.javabank.persistence.TransactionManager;
@@ -75,8 +75,8 @@ public class CustomerServiceImplTest {
 
         // setup
         int fakeId = 9999;
-        Account a1 = new CheckingAccount();
-        Account a2 = new CheckingAccount();
+        AbstractAccount a1 = new CheckingAccount();
+        AbstractAccount a2 = new CheckingAccount();
         a1.credit(100);
         a2.credit(200);
         Customer fakeCustomer = new Customer();
@@ -127,8 +127,8 @@ public class CustomerServiceImplTest {
 
         // setup
         int fakeId = 9999;
-        Account a1 = new CheckingAccount();
-        Account a2 = new CheckingAccount();
+        AbstractAccount a1 = new CheckingAccount();
+        AbstractAccount a2 = new CheckingAccount();
         a1.credit(100);
         a1.setId(1);
         a2.credit(200);

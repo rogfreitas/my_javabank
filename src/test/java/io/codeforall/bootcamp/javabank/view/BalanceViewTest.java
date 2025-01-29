@@ -2,7 +2,7 @@ package io.codeforall.bootcamp.javabank.view;
 
 import io.codeforall.bootcamp.javabank.controller.BalanceController;
 import io.codeforall.bootcamp.javabank.model.Customer;
-import io.codeforall.bootcamp.javabank.model.account.Account;
+import io.codeforall.bootcamp.javabank.model.account.AbstractAccount;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -18,7 +18,7 @@ public class BalanceViewTest {
     private BalanceController controller;
     private Customer customer;
     private PrintStream out;
-    private List<Account> accounts;
+    private List<AbstractAccount> accounts;
 
     @Before
     public void setup() {
@@ -40,14 +40,14 @@ public class BalanceViewTest {
     @Test
     public void showBalance() {
 
-        accounts.add(mock(Account.class));
-        accounts.add(mock(Account.class));
-        accounts.add(mock(Account.class));
+        accounts.add(mock(AbstractAccount.class));
+        accounts.add(mock(AbstractAccount.class));
+        accounts.add(mock(AbstractAccount.class));
 
         view.show();
 
         verify(controller).getCustomer();
-        for (Account account : accounts) {
+        for (AbstractAccount account : accounts) {
             verify(account).getBalance();
         }
 

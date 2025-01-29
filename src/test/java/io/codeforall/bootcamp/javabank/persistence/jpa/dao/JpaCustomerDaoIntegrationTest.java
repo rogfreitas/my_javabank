@@ -1,7 +1,7 @@
 package io.codeforall.bootcamp.javabank.persistence.jpa.dao;
 
 import io.codeforall.bootcamp.javabank.model.Customer;
-import io.codeforall.bootcamp.javabank.model.account.Account;
+import io.codeforall.bootcamp.javabank.model.account.AbstractAccount;
 import io.codeforall.bootcamp.javabank.model.account.CheckingAccount;
 import io.codeforall.bootcamp.javabank.model.account.SavingsAccount;
 import io.codeforall.bootcamp.javabank.persistence.dao.jpa.JpaCustomerDao;
@@ -74,7 +74,7 @@ public class JpaCustomerDaoIntegrationTest extends JpaIntegrationTestHelper {
 
         // setup
         tx.beginWrite();
-        Query query = sm.getCurrentSession().createQuery("delete from Account ");
+        Query query = sm.getCurrentSession().createQuery("delete from AbstractAccount ");
         query.executeUpdate();
         query = sm.getCurrentSession().createQuery("delete from Recipient");
         query.executeUpdate();
@@ -127,8 +127,8 @@ public class JpaCustomerDaoIntegrationTest extends JpaIntegrationTestHelper {
         // setup
         double caBalance = 100;
         double saBalance = 101;
-        Account ca = new CheckingAccount();
-        Account sa = new SavingsAccount();
+        AbstractAccount ca = new CheckingAccount();
+        AbstractAccount sa = new SavingsAccount();
         ca.credit(caBalance);
         sa.credit(saBalance);
 

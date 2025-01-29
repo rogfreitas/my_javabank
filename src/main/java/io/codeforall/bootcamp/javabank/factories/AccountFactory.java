@@ -1,7 +1,7 @@
 package io.codeforall.bootcamp.javabank.factories;
 
 
-import io.codeforall.bootcamp.javabank.model.account.Account;
+import io.codeforall.bootcamp.javabank.model.account.AbstractAccount;
 import io.codeforall.bootcamp.javabank.model.account.AccountType;
 import io.codeforall.bootcamp.javabank.model.account.CheckingAccount;
 import io.codeforall.bootcamp.javabank.model.account.SavingsAccount;
@@ -12,14 +12,14 @@ import io.codeforall.bootcamp.javabank.model.account.SavingsAccount;
 public class AccountFactory {
 
     /**
-     * Creates a new {@link Account}
+     * Creates a new {@link AbstractAccount}
      *
      * @param accountType the account type
      * @return the new account
      */
-    public Account createAccount(AccountType accountType) {
+    public AbstractAccount createAccount(AccountType accountType) {
 
-        Account newAccount;
+        AbstractAccount newAccount;
         switch (accountType) {
             case CHECKING:
                 newAccount = new CheckingAccount();

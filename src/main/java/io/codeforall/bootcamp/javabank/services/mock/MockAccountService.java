@@ -1,27 +1,27 @@
 package io.codeforall.bootcamp.javabank.services.mock;
 
-import io.codeforall.bootcamp.javabank.model.account.Account;
+import io.codeforall.bootcamp.javabank.model.account.AbstractAccount;
 import io.codeforall.bootcamp.javabank.model.account.AccountType;
 import io.codeforall.bootcamp.javabank.services.AccountService;
 
 /**
  * A mock {@link AccountService} implementation
  */
-public class MockAccountService extends AbstractMockService<Account> implements AccountService {
+public class MockAccountService extends AbstractMockService<AbstractAccount> implements AccountService {
 
     /**
      * @see AccountService#get(Integer)
      */
     @Override
-    public Account get(Integer id) {
+    public AbstractAccount get(Integer id) {
         return modelMap.get(id);
     }
 
     /**
-     * @see AccountService#add(Account)
+     * @see AccountService#add(AbstractAccount)
      */
     @Override
-    public Integer add(Account account) {
+    public Integer add(AbstractAccount account) {
 
         if (account.getId() == null) {
             account.setId(getNextId());
@@ -44,7 +44,7 @@ public class MockAccountService extends AbstractMockService<Account> implements 
      */
     public void withdraw(Integer id, double amount) {
 
-        Account account = modelMap.get(id);
+        AbstractAccount account = modelMap.get(id);
         if (account.getAccountType() == AccountType.SAVINGS) {
             return;
         }
@@ -57,8 +57,8 @@ public class MockAccountService extends AbstractMockService<Account> implements 
      */
     public void transfer(Integer srcId, Integer dstId, double amount) {
 
-        Account srcAccount = modelMap.get(srcId);
-        Account dstAccount = modelMap.get(dstId);
+        AbstractAccount srcAccount = modelMap.get(srcId);
+        AbstractAccount dstAccount = modelMap.get(dstId);
 
         // make sure transaction can be performed
         if (srcAccount.canDebit(amount) && dstAccount.canCredit(amount)) {

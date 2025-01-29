@@ -3,6 +3,7 @@ package io.codeforall.bootcamp.javabank.services.mock;
 import io.codeforall.bootcamp.javabank.model.AbstractModel;
 import io.codeforall.bootcamp.javabank.model.Customer;
 import io.codeforall.bootcamp.javabank.model.Recipient;
+import io.codeforall.bootcamp.javabank.model.account.AbstractAccount;
 import io.codeforall.bootcamp.javabank.model.account.Account;
 import io.codeforall.bootcamp.javabank.services.CustomerService;
 
@@ -45,7 +46,7 @@ public class MockCustomerService extends AbstractMockService<Customer> implement
         List<Account> accounts = modelMap.get(id).getAccounts();
 
         return accounts.stream()
-                .map(AbstractModel::getId)
+                .map(Account::getId)
                 .collect(Collectors.toSet());
     }
 

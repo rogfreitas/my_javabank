@@ -1,6 +1,6 @@
 package io.codeforall.bootcamp.javabank.persistence.jpa.dao;
 
-import io.codeforall.bootcamp.javabank.model.account.Account;
+import io.codeforall.bootcamp.javabank.model.account.AbstractAccount;
 import io.codeforall.bootcamp.javabank.model.account.AccountType;
 import io.codeforall.bootcamp.javabank.model.account.CheckingAccount;
 import io.codeforall.bootcamp.javabank.persistence.jpa.JpaIntegrationTestHelper;
@@ -35,7 +35,7 @@ public class JpaAccountDaoIntegrationTest extends JpaIntegrationTestHelper {
         int id = 1;
 
         // exercise
-        Account account = accountDao.findById(id);
+        AbstractAccount account = accountDao.findById(id);
 
         // verify
         assertNotNull("Account is null", account);
@@ -49,7 +49,7 @@ public class JpaAccountDaoIntegrationTest extends JpaIntegrationTestHelper {
     public void testFindByIdInvalid() {
 
         // exercise
-        Account account = accountDao.findById(INVALID_ID);
+        AbstractAccount account = accountDao.findById(INVALID_ID);
 
         // verify
         assertNull("Account should be null", account);
@@ -59,7 +59,7 @@ public class JpaAccountDaoIntegrationTest extends JpaIntegrationTestHelper {
     public void testFindAll() {
 
         // exercise
-        List<Account> accounts = accountDao.findAll();
+        List<AbstractAccount> accounts = accountDao.findAll();
 
         // verify
         assertNotNull("Accounts are null", accounts);
@@ -72,7 +72,7 @@ public class JpaAccountDaoIntegrationTest extends JpaIntegrationTestHelper {
 
         // setup
         tx.beginWrite();
-        Query query = sm.getCurrentSession().createQuery("delete from Account ");
+        Query query = sm.getCurrentSession().createQuery("delete from AbstractAccount ");
         query.executeUpdate();
         query = sm.getCurrentSession().createQuery("delete from Recipient");
         query.executeUpdate();
@@ -81,7 +81,7 @@ public class JpaAccountDaoIntegrationTest extends JpaIntegrationTestHelper {
         tx.commit();
 
         // exercise
-        List<Account> accounts = accountDao.findAll();
+        List<AbstractAccount> accounts = accountDao.findAll();
 
         // verify
         assertNotNull("Accounts are null", accounts);
@@ -93,16 +93,16 @@ public class JpaAccountDaoIntegrationTest extends JpaIntegrationTestHelper {
     public void testAddAccount() {
 
         // setup
-        Account newAccount = new CheckingAccount();
+        AbstractAccount newAccount = new CheckingAccount();
 
         // exercise
         tx.beginWrite();
-        Account addedAccount = accountDao.saveOrUpdate(newAccount);
+        AbstractAccount addedAccount = accountDao.saveOrUpdate(newAccount);
         tx.commit();
 
         // verify
         assertNotNull("Account not added", addedAccount);
-        Account account = sm.getCurrentSession().find(Account.class, addedAccount.getId());
+        AbstractAccount account = sm.getCurrentSession().find(AbstractAccount.class, addedAccount.getId());
         assertNotNull("Account not found", account);
 
     }
@@ -112,7 +112,7 @@ public class JpaAccountDaoIntegrationTest extends JpaIntegrationTestHelper {
 
         // setup
         int id = 1;
-        Account account = sm.getCurrentSession().find(Account.class, id);
+        AbstractAccount account = sm.getCurrentSession().find(AbstractAccount.class, id);
         account.credit(100);
 
         // exercise
@@ -121,7 +121,7 @@ public class JpaAccountDaoIntegrationTest extends JpaIntegrationTestHelper {
         tx.commit();
 
         // verify
-        account = sm.getCurrentSession().find(Account.class, id);
+        account = sm.getCurrentSession().find(AbstractAccount.class, id);
         assertEquals("Account balance is wrong", 200, account.getBalance(), DOUBLE_DELTA);
 
     }
@@ -139,7 +139,7 @@ public class JpaAccountDaoIntegrationTest extends JpaIntegrationTestHelper {
         tx.commit();
 
         // verify
-        Account account = sm.getCurrentSession().find(Account.class, id);
+        AbstractAccount account = sm.getCurrentSession().find(AbstractAccount.class, id);
         assertNotNull("Account owned by customer should not be deleted", account);
     }
 
@@ -155,7 +155,7 @@ public class JpaAccountDaoIntegrationTest extends JpaIntegrationTestHelper {
         tx.commit();
 
         // verify
-        Account account = sm.getCurrentSession().find(Account.class, id);
+        AbstractAccount account = sm.getCurrentSession().find(AbstractAccount.class, id);
         assertNull("Account is not null", account);
 
     }

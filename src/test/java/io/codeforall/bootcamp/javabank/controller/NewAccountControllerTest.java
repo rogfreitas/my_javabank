@@ -2,7 +2,7 @@ package io.codeforall.bootcamp.javabank.controller;
 
 import io.codeforall.bootcamp.javabank.factories.AccountFactory;
 import io.codeforall.bootcamp.javabank.model.Customer;
-import io.codeforall.bootcamp.javabank.model.account.Account;
+import io.codeforall.bootcamp.javabank.model.account.AbstractAccount;
 import io.codeforall.bootcamp.javabank.model.account.AccountType;
 import io.codeforall.bootcamp.javabank.services.AccountService;
 import io.codeforall.bootcamp.javabank.services.AuthService;
@@ -51,7 +51,7 @@ public class NewAccountControllerTest {
         int id = 999;
 
         // make account factory mock return a new mock account when asked to
-        Account account = mock(Account.class);
+        AbstractAccount account = mock(AbstractAccount.class);
         when(account.getId()).thenReturn(id);
         when(accountFactory.createAccount(any(AccountType.class))).thenReturn(account);
         when(accountService.add(account)).thenReturn(id);

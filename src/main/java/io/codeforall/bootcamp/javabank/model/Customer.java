@@ -1,5 +1,6 @@
 package io.codeforall.bootcamp.javabank.model;
 
+import io.codeforall.bootcamp.javabank.model.account.AbstractAccount;
 import io.codeforall.bootcamp.javabank.model.account.Account;
 
 import javax.persistence.*;
@@ -27,7 +28,8 @@ public class Customer extends AbstractModel {
             mappedBy = "customer",
 
             // fetch accounts from database together with user
-            fetch = FetchType.EAGER
+            fetch = FetchType.EAGER,
+            targetEntity = AbstractAccount.class
     )
     private List<Account> accounts = new ArrayList<>();
 

@@ -3,6 +3,7 @@ package io.codeforall.bootcamp.javabank.services;
 import io.codeforall.bootcamp.javabank.model.AbstractModel;
 import io.codeforall.bootcamp.javabank.model.Customer;
 import io.codeforall.bootcamp.javabank.model.Recipient;
+import io.codeforall.bootcamp.javabank.model.account.AbstractAccount;
 import io.codeforall.bootcamp.javabank.model.account.Account;
 import io.codeforall.bootcamp.javabank.persistence.TransactionManager;
 import io.codeforall.bootcamp.javabank.persistence.dao.CustomerDao;
@@ -88,7 +89,7 @@ public class CustomerServiceImpl implements CustomerService {
                     .orElseThrow(() -> new IllegalArgumentException("Customer does not exist"));
 
             return customer.getAccounts().stream()
-                    .map(AbstractModel::getId)
+                    .map(Account::getId)
                     .collect(Collectors.toSet());
 
         } finally {
