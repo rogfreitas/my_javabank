@@ -1,27 +1,26 @@
 package io.codeforall.bootcamp.javabank.services.mock;
 
-import io.codeforall.bootcamp.javabank.model.account.AbstractAccount;
-import io.codeforall.bootcamp.javabank.model.account.AccountType;
+import io.codeforall.bootcamp.javabank.persistence.model.account.Account;
 import io.codeforall.bootcamp.javabank.services.AccountService;
 
 /**
  * A mock {@link AccountService} implementation
  */
-public class MockAccountService extends AbstractMockService<AbstractAccount> implements AccountService {
+public class MockAccountService extends AbstractMockService<Account> implements AccountService {
 
     /**
      * @see AccountService#get(Integer)
      */
     @Override
-    public AbstractAccount get(Integer id) {
+    public Account get(Integer id) {
         return modelMap.get(id);
     }
 
     /**
-     * @see AccountService#add(AbstractAccount)
+     * @see AccountService#add(Account)
      */
     @Override
-    public Integer add(AbstractAccount account) {
+    public Integer add(Account account) {
 
         if (account.getId() == null) {
             account.setId(getNextId());
@@ -30,6 +29,7 @@ public class MockAccountService extends AbstractMockService<AbstractAccount> imp
         modelMap.put(account.getId(), account);
 
         return account.getId();
+
     }
 
     /**
@@ -44,8 +44,9 @@ public class MockAccountService extends AbstractMockService<AbstractAccount> imp
      */
     public void withdraw(Integer id, double amount) {
 
-        AbstractAccount account = modelMap.get(id);
-        if (account.getAccountType() == AccountType.SAVINGS) {
+        Account account = modelMap.get(id);
+
+        if (!account.canWithdraw()) {
             return;
         }
 
@@ -57,8 +58,8 @@ public class MockAccountService extends AbstractMockService<AbstractAccount> imp
      */
     public void transfer(Integer srcId, Integer dstId, double amount) {
 
-        AbstractAccount srcAccount = modelMap.get(srcId);
-        AbstractAccount dstAccount = modelMap.get(dstId);
+        Account srcAccount = modelMap.get(srcId);
+        Account dstAccount = modelMap.get(dstId);
 
         // make sure transaction can be performed
         if (srcAccount.canDebit(amount) && dstAccount.canCredit(amount)) {

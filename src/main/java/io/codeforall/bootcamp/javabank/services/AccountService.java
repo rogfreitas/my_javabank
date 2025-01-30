@@ -1,7 +1,6 @@
 package io.codeforall.bootcamp.javabank.services;
 
-
-import io.codeforall.bootcamp.javabank.model.account.AbstractAccount;
+import io.codeforall.bootcamp.javabank.persistence.model.account.Account;
 
 /**
  * Common interface for account services, provides methods to manage accounts and perform account transactions
@@ -14,7 +13,7 @@ public interface AccountService {
      * @param id the account id
      * @return the account
      */
-    AbstractAccount get(Integer id);
+    Account get(Integer id);
 
     /**
      * Adds an account to the service
@@ -22,10 +21,10 @@ public interface AccountService {
      * @param account the account to add
      * @return the account id
      */
-    Integer add(AbstractAccount account);
+    Integer add(Account account);
 
     /**
-     * Perform an {@link AbstractAccount} deposit
+     * Perform an {@link Account} deposit
      *
      * @param id     the id of the account
      * @param amount the amount to deposit
@@ -33,7 +32,7 @@ public interface AccountService {
     void deposit(Integer id, double amount);
 
     /**
-     * Perform an {@link AbstractAccount} withdrawal
+     * Perform an {@link Account} withdrawal
      *
      * @param id     the id of the account
      * @param amount the amount to withdraw
@@ -41,7 +40,7 @@ public interface AccountService {
     void withdraw(Integer id, double amount);
 
     /**
-     * Performs a transfer between two {@link AbstractAccount} if possible
+     * Performs a transfer between two {@link Account} if possible
      *
      * @param srcId  the source account id
      * @param dstId  the destination account id

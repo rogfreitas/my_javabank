@@ -1,9 +1,9 @@
 package io.codeforall.bootcamp.javabank.services;
 
-import io.codeforall.bootcamp.javabank.model.Customer;
-import io.codeforall.bootcamp.javabank.model.Recipient;
-import io.codeforall.bootcamp.javabank.model.account.AbstractAccount;
-import io.codeforall.bootcamp.javabank.model.account.CheckingAccount;
+import io.codeforall.bootcamp.javabank.persistence.model.Customer;
+import io.codeforall.bootcamp.javabank.persistence.model.Recipient;
+import io.codeforall.bootcamp.javabank.persistence.model.account.Account;
+import io.codeforall.bootcamp.javabank.persistence.model.account.CheckingAccount;
 import io.codeforall.bootcamp.javabank.persistence.TransactionException;
 import io.codeforall.bootcamp.javabank.persistence.TransactionManager;
 import io.codeforall.bootcamp.javabank.persistence.dao.CustomerDao;
@@ -75,8 +75,8 @@ public class CustomerServiceImplTest {
 
         // setup
         int fakeId = 9999;
-        AbstractAccount a1 = new CheckingAccount();
-        AbstractAccount a2 = new CheckingAccount();
+        Account a1 = new CheckingAccount();
+        Account a2 = new CheckingAccount();
         a1.credit(100);
         a2.credit(200);
         Customer fakeCustomer = new Customer();
@@ -127,8 +127,8 @@ public class CustomerServiceImplTest {
 
         // setup
         int fakeId = 9999;
-        AbstractAccount a1 = new CheckingAccount();
-        AbstractAccount a2 = new CheckingAccount();
+        Account a1 = new CheckingAccount();
+        Account a2 = new CheckingAccount();
         a1.credit(100);
         a1.setId(1);
         a2.credit(200);
@@ -151,7 +151,7 @@ public class CustomerServiceImplTest {
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void testGetCustomerAccountIdsInvalidId() {
+    public void testListCustomerAccountIdsInvalidId() {
 
         // setup
         when(customerDao.findById(anyInt())).thenReturn(null);

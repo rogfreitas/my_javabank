@@ -1,6 +1,6 @@
 package io.codeforall.bootcamp.javabank.services;
 
-import io.codeforall.bootcamp.javabank.model.account.AbstractAccount;
+import io.codeforall.bootcamp.javabank.persistence.model.account.Account;
 import io.codeforall.bootcamp.javabank.persistence.TransactionException;
 import io.codeforall.bootcamp.javabank.persistence.TransactionManager;
 import io.codeforall.bootcamp.javabank.persistence.dao.AccountDao;
@@ -37,7 +37,7 @@ public class AccountServiceImpl implements AccountService {
      * @see AccountService#get(Integer)
      */
     @Override
-    public AbstractAccount get(Integer id) {
+    public Account get(Integer id) {
 
         try {
 
@@ -50,10 +50,10 @@ public class AccountServiceImpl implements AccountService {
     }
 
     /**
-     * @see AccountService#add(AbstractAccount)
+     * @see AccountService#add(Account)
      */
     @Override
-    public Integer add(AbstractAccount account) {
+    public Integer add(Account account) {
 
         Integer id = null;
 
@@ -64,6 +64,7 @@ public class AccountServiceImpl implements AccountService {
             id = accountDao.saveOrUpdate(account).getId();
 
             tx.commit();
+
 
         } catch (TransactionException ex) {
 
@@ -83,16 +84,16 @@ public class AccountServiceImpl implements AccountService {
 
             tx.beginWrite();
 
-            Optional<AbstractAccount> account = Optional.ofNullable(accountDao.findById(id));
+            Optional<Account> accountOptional = Optional.ofNullable(accountDao.findById(id));
 
-            if (!account.isPresent()) {
+            if (!accountOptional.isPresent()) {
                 tx.rollback();
             }
 
-            account.orElseThrow(() -> new IllegalArgumentException("invalid account id"))
+            accountOptional.orElseThrow(() -> new IllegalArgumentException("invalid account id"))
                     .credit(amount);
 
-            accountDao.saveOrUpdate(account.get());
+            accountDao.saveOrUpdate(accountOptional.get());
 
             tx.commit();
 
@@ -112,16 +113,16 @@ public class AccountServiceImpl implements AccountService {
 
             tx.beginWrite();
 
-            Optional<AbstractAccount> account = Optional.ofNullable(accountDao.findById(id));
+            Optional<Account> accountOptional = Optional.ofNullable(accountDao.findById(id));
 
-            if (!account.isPresent()) {
+            if (!accountOptional.isPresent()) {
                 tx.rollback();
             }
 
-            account.orElseThrow(() -> new IllegalArgumentException("invalid account id"))
+            accountOptional.orElseThrow(() -> new IllegalArgumentException("invalid account id"))
                     .debit(amount);
 
-            accountDao.saveOrUpdate(account.get());
+            accountDao.saveOrUpdate(accountOptional.get());
 
             tx.commit();
 
@@ -141,8 +142,8 @@ public class AccountServiceImpl implements AccountService {
 
             tx.beginWrite();
 
-            Optional<AbstractAccount> srcAccount = Optional.ofNullable(accountDao.findById(srcId));
-            Optional<AbstractAccount> dstAccount = Optional.ofNullable(accountDao.findById(dstId));
+            Optional<Account> srcAccount = Optional.ofNullable(accountDao.findById(srcId));
+            Optional<Account> dstAccount = Optional.ofNullable(accountDao.findById(dstId));
 
             if (!srcAccount.isPresent() || !dstAccount.isPresent()) {
                 tx.rollback();

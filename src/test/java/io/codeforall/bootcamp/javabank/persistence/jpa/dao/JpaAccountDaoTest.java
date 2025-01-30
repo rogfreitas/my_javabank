@@ -1,8 +1,8 @@
 package io.codeforall.bootcamp.javabank.persistence.jpa.dao;
 
-import io.codeforall.bootcamp.javabank.model.account.AbstractAccount;
-import io.codeforall.bootcamp.javabank.model.account.CheckingAccount;
-import io.codeforall.bootcamp.javabank.model.account.SavingsAccount;
+import io.codeforall.bootcamp.javabank.persistence.model.account.Account;
+import io.codeforall.bootcamp.javabank.persistence.model.account.CheckingAccount;
+import io.codeforall.bootcamp.javabank.persistence.model.account.SavingsAccount;
 import io.codeforall.bootcamp.javabank.persistence.TransactionException;
 import io.codeforall.bootcamp.javabank.persistence.dao.jpa.JpaAccountDao;
 import io.codeforall.bootcamp.javabank.persistence.jpa.JpaSessionManager;
@@ -31,7 +31,8 @@ public class JpaAccountDaoTest {
 
         sm = mock(JpaSessionManager.class);
         em = mock(EntityManager.class);
-        customerDao = new JpaAccountDao(sm);
+        customerDao = new JpaAccountDao();
+        customerDao.setSm(sm);
 
         when(sm.getCurrentSession()).thenReturn(em);
 
@@ -41,18 +42,19 @@ public class JpaAccountDaoTest {
     public void testFindAll() {
 
         // setup
-        List<AbstractAccount> mockAccounts = new ArrayList<>();
+        List<Account> mockAccounts = new ArrayList<>();
         CriteriaQuery criteriaQuery = mock(CriteriaQuery.class);
         CriteriaBuilder criteriaBuilder = mock(CriteriaBuilder.class);
         TypedQuery typedQuery = mock(TypedQuery.class);
         when(em.getCriteriaBuilder()).thenReturn(criteriaBuilder);
-        when(criteriaBuilder.createQuery(AbstractAccount.class)).thenReturn(criteriaQuery);
+        when(criteriaBuilder.createQuery(Account.class)).thenReturn(criteriaQuery);
         when(em.createQuery(criteriaQuery)).thenReturn(typedQuery);
         when(em.createQuery(anyString(), any(Class.class))).thenReturn(typedQuery);
+        when(em.createQuery(any(CriteriaQuery.class))).thenReturn(typedQuery);
         when(typedQuery.getResultList()).thenReturn(mockAccounts);
 
         // exercise
-        List<AbstractAccount> customers = customerDao.findAll();
+        List<Account> customers = customerDao.findAll();
 
         // verify
         verify(sm, times(1)).getCurrentSession();
@@ -65,13 +67,14 @@ public class JpaAccountDaoTest {
     @Test(expected = TransactionException.class)
     public void testFindAllFail() {
 
+
         // setup
-        List<AbstractAccount> mockAccounts = new ArrayList<>();
+        List<Account> mockAccounts = new ArrayList<>();
         CriteriaQuery criteriaQuery = mock(CriteriaQuery.class);
         CriteriaBuilder criteriaBuilder = mock(CriteriaBuilder.class);
         TypedQuery typedQuery = mock(TypedQuery.class);
         when(em.getCriteriaBuilder()).thenReturn(criteriaBuilder);
-        when(criteriaBuilder.createQuery(AbstractAccount.class)).thenReturn(criteriaQuery);
+        when(criteriaBuilder.createQuery(Account.class)).thenReturn(criteriaQuery);
         when(em.createQuery(criteriaQuery)).thenReturn(typedQuery);
         when(em.createQuery(anyString(), any(Class.class))).thenReturn(typedQuery);
         when(em.createQuery(any(CriteriaQuery.class))).thenReturn(typedQuery);
@@ -94,18 +97,18 @@ public class JpaAccountDaoTest {
 
         // setup
         int fakeId = 9999;
-        AbstractAccount fakeAccount = new CheckingAccount();
+        Account fakeAccount = new CheckingAccount();
         fakeAccount.setId(fakeId);
-        when(em.find(AbstractAccount.class, fakeId)).thenReturn(fakeAccount);
+        when(em.find(Account.class, fakeId)).thenReturn(fakeAccount);
 
         // exercise
-        AbstractAccount customer = customerDao.findById(fakeId);
+        Account customer = customerDao.findById(fakeId);
 
         // verify
         verify(sm, times(1)).getCurrentSession();
         verify(sm, never()).stopSession();
         verify(sm, never()).startSession();
-        verify(em, times(1)).find(AbstractAccount.class, fakeId);
+        verify(em, times(1)).find(Account.class, fakeId);
         assertEquals(fakeAccount, customer);
 
     }
@@ -115,18 +118,18 @@ public class JpaAccountDaoTest {
 
         // setup
         int fakeId = 9999;
-        AbstractAccount fakeAccount = new SavingsAccount();
+        Account fakeAccount = new SavingsAccount();
         fakeAccount.setId(fakeId);
-        when(em.find(AbstractAccount.class, fakeId)).thenReturn(fakeAccount);
+        when(em.find(Account.class, fakeId)).thenReturn(fakeAccount);
 
         // exercise
-        AbstractAccount customer = customerDao.findById(fakeId);
+        Account customer = customerDao.findById(fakeId);
 
         // verify
         verify(sm, times(1)).getCurrentSession();
         verify(sm, never()).stopSession();
         verify(sm, never()).startSession();
-        verify(em, times(1)).find(AbstractAccount.class, fakeId);
+        verify(em, times(1)).find(Account.class, fakeId);
         assertEquals(fakeAccount, customer);
 
     }
@@ -136,7 +139,7 @@ public class JpaAccountDaoTest {
 
         // setup
         int fakeId = 9999;
-        doThrow(new HibernateException(new RuntimeException())).when(em).find(eq(AbstractAccount.class), anyInt());
+        doThrow(new HibernateException(new RuntimeException())).when(em).find(eq(Account.class), anyInt());
 
         // exercise
         customerDao.findById(fakeId);
@@ -145,7 +148,7 @@ public class JpaAccountDaoTest {
         verify(sm, times(1)).getCurrentSession();
         verify(sm, never()).stopSession();
         verify(sm, never()).startSession();
-        verify(em, times(1)).find(AbstractAccount.class, fakeId);
+        verify(em, times(1)).find(Account.class, fakeId);
 
     }
 
@@ -153,17 +156,17 @@ public class JpaAccountDaoTest {
     public void testSaveOrUpdateChecking() {
 
         // setup
-        AbstractAccount fakeAccount = new CheckingAccount();
-        when(em.merge(any(AbstractAccount.class))).thenReturn(fakeAccount);
+        Account fakeAccount = new CheckingAccount();
+        when(em.merge(any(Account.class))).thenReturn(fakeAccount);
 
         // exercise
-        AbstractAccount customer = customerDao.saveOrUpdate(fakeAccount);
+        Account customer = customerDao.saveOrUpdate(fakeAccount);
 
         // verify
         verify(sm, times(1)).getCurrentSession();
         verify(sm, never()).stopSession();
         verify(sm, never()).startSession();
-        verify(em, times(1)).merge(any(AbstractAccount.class));
+        verify(em, times(1)).merge(any(Account.class));
         assertEquals(fakeAccount, customer);
 
     }
@@ -172,17 +175,17 @@ public class JpaAccountDaoTest {
     public void testSaveOrUpdateSavings() {
 
         // setup
-        AbstractAccount fakeAccount = new SavingsAccount();
-        when(em.merge(any(AbstractAccount.class))).thenReturn(fakeAccount);
+        Account fakeAccount = new SavingsAccount();
+        when(em.merge(any(Account.class))).thenReturn(fakeAccount);
 
         // exercise
-        AbstractAccount customer = customerDao.saveOrUpdate(fakeAccount);
+        Account customer = customerDao.saveOrUpdate(fakeAccount);
 
         // verify
         verify(sm, times(1)).getCurrentSession();
         verify(sm, never()).stopSession();
         verify(sm, never()).startSession();
-        verify(em, times(1)).merge(any(AbstractAccount.class));
+        verify(em, times(1)).merge(any(Account.class));
         assertEquals(fakeAccount, customer);
 
     }
@@ -191,8 +194,8 @@ public class JpaAccountDaoTest {
     public void testSaveOrUpdateFail() {
 
         // setup
-        AbstractAccount fakeAccount = new CheckingAccount();
-        doThrow(new HibernateException(new RuntimeException())).when(em).merge(any(AbstractAccount.class));
+        Account fakeAccount = new CheckingAccount();
+        doThrow(new HibernateException(new RuntimeException())).when(em).merge(any(Account.class));
 
         // exercise
         customerDao.saveOrUpdate(fakeAccount);
@@ -201,7 +204,7 @@ public class JpaAccountDaoTest {
         verify(sm, times(1)).getCurrentSession();
         verify(sm, never()).stopSession();
         verify(sm, never()).startSession();
-        verify(em, times(1)).merge(any(AbstractAccount.class));
+        verify(em, times(1)).merge(any(Account.class));
     }
 
     @Test
@@ -209,9 +212,9 @@ public class JpaAccountDaoTest {
 
         // setup
         int fakeId = 9999;
-        AbstractAccount fakeAccount = new CheckingAccount();
+        Account fakeAccount = new CheckingAccount();
         fakeAccount.setId(fakeId);
-        when(em.find(AbstractAccount.class, fakeId)).thenReturn(fakeAccount);
+        when(em.find(Account.class, fakeId)).thenReturn(fakeAccount);
 
         // exercise
         customerDao.delete(fakeId);
@@ -229,9 +232,9 @@ public class JpaAccountDaoTest {
 
         // setup
         int fakeId = 9999;
-        AbstractAccount fakeAccount = new SavingsAccount();
+        Account fakeAccount = new SavingsAccount();
         fakeAccount.setId(fakeId);
-        when(em.find(AbstractAccount.class, fakeId)).thenReturn(fakeAccount);
+        when(em.find(Account.class, fakeId)).thenReturn(fakeAccount);
 
         // exercise
         customerDao.delete(fakeId);
@@ -249,7 +252,7 @@ public class JpaAccountDaoTest {
 
         // setup
         int fakeId = 9999;
-        doThrow(new HibernateException(new RuntimeException())).when(em).find(eq(AbstractAccount.class), anyInt());
+        doThrow(new HibernateException(new RuntimeException())).when(em).find(eq(Account.class), anyInt());
 
         // exercise
         customerDao.delete(fakeId);
@@ -258,7 +261,7 @@ public class JpaAccountDaoTest {
         verify(sm, times(1)).getCurrentSession();
         verify(sm, never()).stopSession();
         verify(sm, never()).startSession();
-        verify(em, times(1)).remove(any(AbstractAccount.class));
+        verify(em, times(1)).remove(any(Account.class));
 
 
     }

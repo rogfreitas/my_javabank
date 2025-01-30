@@ -1,18 +1,17 @@
 package io.codeforall.bootcamp.javabank.persistence.dao.jpa;
 
-import io.codeforall.bootcamp.javabank.model.account.AbstractAccount;
+import io.codeforall.bootcamp.javabank.persistence.model.account.Account;
 import io.codeforall.bootcamp.javabank.persistence.dao.AccountDao;
-import io.codeforall.bootcamp.javabank.persistence.jpa.JpaSessionManager;
 
 /**
  * A JPA {@link AccountDao} implementation
  */
-public class JpaAccountDao extends GenericJpaDao<AbstractAccount> implements AccountDao {
+public class JpaAccountDao extends GenericJpaDao<Account> implements AccountDao {
 
     /**
-     * @see GenericJpaDao#GenericJpaDao(JpaSessionManager, Class)
+     * @see GenericJpaDao#GenericJpaDao(Class)
      */
-    public JpaAccountDao(JpaSessionManager sm) {
-        super(sm, AbstractAccount.class);
+    public JpaAccountDao() {
+        super(Account.class);
     }
 }

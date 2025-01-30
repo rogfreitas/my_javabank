@@ -1,10 +1,9 @@
 package io.codeforall.bootcamp.javabank.services;
 
-import io.codeforall.bootcamp.javabank.model.AbstractModel;
-import io.codeforall.bootcamp.javabank.model.Customer;
-import io.codeforall.bootcamp.javabank.model.Recipient;
-import io.codeforall.bootcamp.javabank.model.account.AbstractAccount;
-import io.codeforall.bootcamp.javabank.model.account.Account;
+import io.codeforall.bootcamp.javabank.persistence.model.AbstractModel;
+import io.codeforall.bootcamp.javabank.persistence.model.Customer;
+import io.codeforall.bootcamp.javabank.persistence.model.Recipient;
+import io.codeforall.bootcamp.javabank.persistence.model.account.Account;
 import io.codeforall.bootcamp.javabank.persistence.TransactionManager;
 import io.codeforall.bootcamp.javabank.persistence.dao.CustomerDao;
 
@@ -16,8 +15,8 @@ import java.util.stream.Collectors;
  */
 public class CustomerServiceImpl implements CustomerService {
 
-    private CustomerDao customerDao;
     private TransactionManager tx;
+    private CustomerDao customerDao;
 
     /**
      * Sets the customer data access object
@@ -89,7 +88,7 @@ public class CustomerServiceImpl implements CustomerService {
                     .orElseThrow(() -> new IllegalArgumentException("Customer does not exist"));
 
             return customer.getAccounts().stream()
-                    .map(Account::getId)
+                    .map(AbstractModel::getId)
                     .collect(Collectors.toSet());
 
         } finally {
