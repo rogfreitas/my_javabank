@@ -5,6 +5,9 @@ import io.codeforall.bootcamp.javabank.persistence.model.AbstractModel;
 import io.codeforall.bootcamp.javabank.persistence.model.Customer;
 import io.codeforall.bootcamp.javabank.persistence.model.Recipient;
 import io.codeforall.bootcamp.javabank.persistence.model.account.Account;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Profile;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
@@ -13,6 +16,7 @@ import java.util.stream.Collectors;
 /**
  * An {@link CustomerService} implementation
  */
+@Service
 public class CustomerServiceImpl implements CustomerService {
 
     private CustomerDao customerDao;
@@ -22,8 +26,13 @@ public class CustomerServiceImpl implements CustomerService {
      *
      * @param customerDao the account DAO to set
      */
+    @Autowired
     public void setCustomerDao(CustomerDao customerDao) {
         this.customerDao = customerDao;
+    }
+
+    public List<Customer> getCustomers(){
+        return customerDao.findAll();
     }
 
     /**

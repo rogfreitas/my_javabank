@@ -2,11 +2,12 @@ package io.codeforall.bootcamp.javabank.persistence.dao.jpa;
 
 import io.codeforall.bootcamp.javabank.persistence.dao.Dao;
 import io.codeforall.bootcamp.javabank.persistence.model.Model;
+import org.springframework.stereotype.Repository;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Root;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
+import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.Root;
 import java.util.List;
 
 /**
@@ -15,6 +16,7 @@ import java.util.List;
  * @param <T> the model type
  * @see Dao
  */
+
 public abstract class GenericJpaDao<T extends Model> implements Dao<T> {
 
     protected Class<T> modelType;

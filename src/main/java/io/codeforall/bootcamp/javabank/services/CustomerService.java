@@ -35,6 +35,8 @@ public interface CustomerService {
      */
     Set<Integer> listCustomerAccountIds(Integer id);
 
+    List<Customer> getCustomers();
+
     /**
      * Gets the list of customer recipients
      *

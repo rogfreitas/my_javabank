@@ -2,12 +2,14 @@ package io.codeforall.bootcamp.javabank.persistence.dao.jpa;
 
 import io.codeforall.bootcamp.javabank.persistence.model.Customer;
 import io.codeforall.bootcamp.javabank.persistence.dao.CustomerDao;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
 /**
  * A JPA {@link CustomerDao} implementation
  */
+@Repository
 public class JpaCustomerDao extends GenericJpaDao<Customer> implements CustomerDao {
 
     /**
@@ -24,4 +26,5 @@ public class JpaCustomerDao extends GenericJpaDao<Customer> implements CustomerD
         return em.createQuery("select id from Customer", Integer.class)
                 .getResultList();
     }
+
 }

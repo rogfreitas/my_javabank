@@ -2,10 +2,13 @@ package io.codeforall.bootcamp.javabank.services.mock;
 
 import io.codeforall.bootcamp.javabank.persistence.model.account.Account;
 import io.codeforall.bootcamp.javabank.services.AccountService;
+import org.springframework.context.annotation.Profile;
+import org.springframework.stereotype.Service;
 
 /**
  * A mock {@link AccountService} implementation
  */
+
 public class MockAccountService extends AbstractMockService<Account> implements AccountService {
 
     /**

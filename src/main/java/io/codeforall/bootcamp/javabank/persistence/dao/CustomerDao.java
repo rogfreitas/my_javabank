@@ -15,4 +15,5 @@ public interface CustomerDao extends Dao<Customer> {
      * @return the list of customer ids
      */
     List<Integer> getCustomerIds();
+
 }

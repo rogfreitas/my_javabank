@@ -5,6 +5,8 @@ import io.codeforall.bootcamp.javabank.persistence.model.Customer;
 import io.codeforall.bootcamp.javabank.persistence.model.Recipient;
 import io.codeforall.bootcamp.javabank.persistence.model.account.Account;
 import io.codeforall.bootcamp.javabank.services.CustomerService;
+import org.springframework.context.annotation.Profile;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Set;
@@ -13,6 +15,7 @@ import java.util.stream.Collectors;
 /**
  * A mock {@link CustomerService} implementation
  */
+
 public class MockCustomerService extends AbstractMockService<Customer> implements CustomerService {
 
     /**
@@ -47,6 +50,11 @@ public class MockCustomerService extends AbstractMockService<Customer> implement
         return accounts.stream()
                 .map(AbstractModel::getId)
                 .collect(Collectors.toSet());
+    }
+
+    @Override
+    public List<Customer> getCustomers() {
+        return null;
     }
 
     /**
