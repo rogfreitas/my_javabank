@@ -7,6 +7,7 @@ import io.codeforall.bootcamp.javabank.persistence.jpa.JpaSessionManager;
 import org.hibernate.HibernateException;
 
 import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import java.util.List;
@@ -19,7 +20,9 @@ import java.util.List;
  */
 public abstract class GenericJpaDao<T extends Model> implements Dao<T> {
 
-    protected JpaSessionManager sm;
+    //protected JpaSessionManager sm;
+    @PersistenceContext
+    protected EntityManager em;
     protected Class<T> modelType;
 
     /**
@@ -36,10 +39,11 @@ public abstract class GenericJpaDao<T extends Model> implements Dao<T> {
      *
      * @param sm the session manager to set
      */
+/*
     public void setSm(JpaSessionManager sm) {
         this.sm = sm;
     }
-
+*/
     /**
      * @see Dao#findAll()
      */
@@ -48,7 +52,7 @@ public abstract class GenericJpaDao<T extends Model> implements Dao<T> {
 
         try {
 
-            EntityManager em = sm.getCurrentSession();
+            //EntityManager em = sm.getCurrentSession();
 
             CriteriaQuery<T> criteriaQuery = em.getCriteriaBuilder().createQuery(modelType);
             Root<T> root = criteriaQuery.from(modelType);
@@ -71,7 +75,7 @@ public abstract class GenericJpaDao<T extends Model> implements Dao<T> {
 
         try {
 
-            EntityManager em = sm.getCurrentSession();
+           // EntityManager em = sm.getCurrentSession();
             return em.find(modelType, id);
 
         } catch (HibernateException ex) {
@@ -87,7 +91,7 @@ public abstract class GenericJpaDao<T extends Model> implements Dao<T> {
 
         try {
 
-            EntityManager em = sm.getCurrentSession();
+           // EntityManager em = sm.getCurrentSession();
             return em.merge(modelObject);
 
         } catch (HibernateException ex) {
@@ -103,7 +107,7 @@ public abstract class GenericJpaDao<T extends Model> implements Dao<T> {
 
         try {
 
-            EntityManager em = sm.getCurrentSession();
+           // EntityManager em = sm.getCurrentSession();
             em.remove(em.find(modelType, id));
 
         } catch (HibernateException ex) {
